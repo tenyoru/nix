@@ -1,0 +1,23 @@
+;; ~/.config/kanata/config.kbd
+
+(defcfg
+  process-unmapped-keys yes
+  linux-dev /dev/input/by-path/platform-i8042-serio-0-event-kbd
+)
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+(deflayer base
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    g    m    l    w    y    f    u    b    '    [    ]    \
+  caps d    s    t    n    r    i    a    e    o    h    ;    ret
+  lsft z    x    c    v    j    k    p    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+

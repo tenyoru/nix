@@ -1,7 +1,7 @@
 { pkgs, config, lib, mylib, hostConfig, ... }:
 let
-  useConfig = builtins.elem "tmux" (hostConfig.dotfiles.modules or []);
-  configPath = "${mylib.dotfilesDir}/config/tmux/tmux.conf";
+  useConfig = mylib.useDotfiles hostConfig;
+  configPath = mylib.dotfileConfig "tmux" + "/tmux.conf";
 in {
   programs.tmux = {
     enable = true;

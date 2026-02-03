@@ -11,9 +11,10 @@
     "tmux"
     "fish"
     "neovim"
+    "mako"
+    "ghostty"
     ({ pkgs, ... }: {
       home.packages = with pkgs; [
-        opencode
         pipewire.jack
         proton-pass
         openssl
@@ -26,7 +27,6 @@
         guitarix
         niri
         postgresql
-        mako
         dfu-util
         ayugram-desktop
         chezmoi
@@ -67,7 +67,6 @@
         waybar
         go
         fluffychat
-        ghostty
         cloudflared
       ];
     })

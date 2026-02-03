@@ -1,7 +1,7 @@
 { pkgs, config, lib, mylib, hostConfig, ... }:
 let
-  useConfig = builtins.elem "fish" (hostConfig.dotfiles.modules or []);
-  configPath = "${mylib.dotfilesDir}/config/fish/config.fish";
+  useConfig = mylib.useDotfiles hostConfig;
+  configPath = mylib.dotfileConfig "fish" + "/config.fish";
 in {
   programs.fish = {
     enable = true;

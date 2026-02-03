@@ -12,6 +12,14 @@
   # Usage: config.lib.file.mkOutOfStoreSymlink (mylib.dotfile ".config/nvim")
   dotfile = path: "${dotfilesDir}/${path}";
 
+  # Check if dotfiles are enabled for this host
+  # Usage: mylib.useDotfiles hostConfig
+  useDotfiles = hostConfig: hostConfig.dotfiles.enable or false;
+
+  # Get path to a config in dotfiles
+  # Usage: mylib.dotfileConfig "tmux" -> "/home/user/.nixos/dotfiles/config/tmux"
+  dotfileConfig = name: "${dotfilesDir}/config/${name}";
+
   # Default configs directory in nixos repo
   defaultsDir = "${self}/defaults";
 
@@ -130,4 +138,6 @@ in {
   dotfilesDir = dotfilesDir;
   defaultsDir = defaultsDir;
   mkDotfile = mkDotfile;
+  useDotfiles = useDotfiles;
+  dotfileConfig = dotfileConfig;
 }
