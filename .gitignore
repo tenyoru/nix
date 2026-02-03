@@ -3,13 +3,6 @@ result
 result-*
 .direnv/
 
-# Secrets (never commit unencrypted)
-*.age
-!*.age.pub
-secrets/*.yaml
-!secrets/*.yaml.example
-./files/wireguard/*
-
 # Editor
 *.swp
 *.swo
