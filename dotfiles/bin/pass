@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# pass-pick — interactive password picker for pass-cli
+
+set -euo pipefail
+
+# Clipboard command
+if command -v wl-copy &>/dev/null; then
+    CLIP="wl-copy"
+elif command -v xclip &>/dev/null; then
+    CLIP="xclip -selection clipboard"
+else
+    echo "No clipboard tool found (install wl-copy or xclip)"
+    exit 1
+fi
+
+# 1. Get item list as plain names
+ITEMS=$(pass-cli item list --output json)
+NAMES=$(echo "$ITEMS" | jq -r '.items[] | select(.content.content | has("Login")) | .content.title')
+
+# 2. Pick by name only
+NAME=$(echo "$NAMES" | fzf --prompt="Select item: ")
+[ -z "$NAME" ] && exit 0
+
+# 3. Now extract all non-empty fields for the selected item
+FIELDS=$(echo "$ITEMS" | jq -r --arg name "$NAME" '
+    .items[] | select(.content.title == $name and (.content.content | has("Login"))) |
+    .content as $c | $c.content.Login as $l |
+
+    (if ($l.username // "" | length) > 0 then "username\t\($l.username)" else empty end),
+    (if ($l.email // "" | length) > 0 then "email\t\($l.email)" else empty end),
+    (if ($l.password // "" | length) > 0 then "password\t••••••••" else empty end),
+    (if ($l.totp_uri // "" | length) > 0 then "2fa\tgenerate code" else empty end),
+    (if ($l.urls // [] | length) > 0 then "url\t\($l.urls | join(", "))" else empty end),
+    (if ($c.note // "" | length) > 0 then "note\t\($c.note)" else empty end),
+    ($c.extra_fields // [] | .[] | "\(.name)\t\(.content | to_entries[0].value)")
+')
+
+[ -z "$FIELDS" ] && { echo "No fields found."; exit 1; }
+
+# 4. Pick a field
+SELECTED=$(echo "$FIELDS" | fzf --with-nth=1,2 --delimiter='\t' --prompt="Copy field: ")
+[ -z "$SELECTED" ] && exit 0
+
+FIELD_NAME=$(echo "$SELECTED" | cut -f1)
+
+# 5. Get the actual value
+case "$FIELD_NAME" in
+    password)
+        VALUE=$(echo "$ITEMS" | jq -r --arg name "$NAME" '
+            .items[] | select(.content.title == $name and (.content.content | has("Login"))) |
+            .content.content.Login.password')
+        ;;
+    2fa)
+        ITEM_ID=$(echo "$ITEMS" | jq -r --arg name "$NAME" '
+            .items[] | select(.content.title == $name and (.content.content | has("Login"))) | .id')
+        VALUE=$(pass-cli item totp --item-id "$ITEM_ID" 2>&1 | grep -oP '\d{6,8}' | head -1)
+        ;;
+    *)
+        VALUE=$(echo "$SELECTED" | cut -f2)
+        ;;
+esac
+
+if [ -z "$VALUE" ]; then
+    echo "Field '$FIELD_NAME' is empty."
+    exit 1
+fi
+
+echo -n "$VALUE" | $CLIP
+echo "Copied $FIELD_NAME to clipboard. Clearing in 10s..."
+(sleep 10 && echo -n "" | $CLIP) &

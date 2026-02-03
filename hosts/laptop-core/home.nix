@@ -1,0 +1,75 @@
+{ mylib, ... }:
+{
+  imports = mylib.getHomeModules [
+    "cli-suggar"
+    "dev"
+    "obs"
+    "zen-browser"
+    "anyrun"
+    "git"
+    "zathura"
+    "tmux"
+    "fish"
+    "neovim"
+    ({ pkgs, ... }: {
+      home.packages = with pkgs; [
+        opencode
+        pipewire.jack
+        proton-pass
+        openssl
+        claude-code
+        imagemagick
+        nodejs
+        jujutsu
+        notify-desktop
+        protonvpn-gui
+        guitarix
+        niri
+        postgresql
+        mako
+        dfu-util
+        ayugram-desktop
+        chezmoi
+        zig
+        iamb
+        discord
+        platformio-core
+        gnome-keyring
+        xwayland-satellite
+        python3
+        tor-browser
+        devenv
+        gnumake
+        just
+        macchina
+        wf-recorder
+        wireguard-tools
+        qpwgraph
+        taskwarrior3
+        timewarrior
+        jmtpfs
+        exiftool
+        veracrypt
+        uv
+        hugo
+        qutebrowser
+        dart-sass
+        gdal
+        mpd
+        ncmpcpp
+        typst
+        mpc
+        blender
+        freecad
+        ssh-agents
+        rustup
+        anki-bin
+        waybar
+        go
+        fluffychat
+        ghostty
+        cloudflared
+      ];
+    })
+  ];
+}

@@ -1,0 +1,36 @@
+# Nix
+result
+result-*
+.direnv/
+
+# Secrets (never commit unencrypted)
+*.age
+!*.age.pub
+secrets/*.yaml
+!secrets/*.yaml.example
+./files/wireguard/*
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups from home-manager
+*.backup
+*.bak
+
+# Local overrides
+local.nix
+*.local.nix
+
+# Temporary files
+*.tmp
+
+# Misc
+.cache/

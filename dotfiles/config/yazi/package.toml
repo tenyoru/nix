@@ -1,0 +1,9 @@
+[[plugin.deps]]
+use = "orhnk/system-clipboard"
+rev = "4f6942d"
+hash = "8e81a147e8ddfd992b10dd957d51a199"
+
+[[flavor.deps]]
+use = "muratoffalex/kanagawa-lotus"
+rev = "4275a1a"
+hash = "e3c47ba547279aff64b6e46eefcf4479"

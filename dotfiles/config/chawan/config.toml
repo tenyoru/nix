@@ -1,0 +1,16 @@
+[buffer]
+images = true
+cookie = true
+# styling = false
+Esc = 'cmd.line.cancel'
+
+[page]
+'C-k' = '() => pager.load("ddg:")'
+'C-i' = 'pager.buffer.toggleImages()'
+# n = 'pager.buffer.cursorNextLink()' # ]
+# p = 'pager.buffer.cursorPrevLink()' # [
+q = 'pager.ask("Do you want to exit Chawan?").then(x => x ? quit() : void(0))'
+
+[external]
+copy-cmd = "wl-copy"
+paste-cmd = "wl-paste"

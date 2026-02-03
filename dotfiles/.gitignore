@@ -1,0 +1,28 @@
+# Qutebrowser
+config/qutebrowser/autoconfig.yml
+config/qutebrowser/bookmarks/
+config/qutebrowser/qsettings/
+config/qutebrowser/quickmarks
+
+# Fish
+config/fish/fish_variables
+config/fish/completions/
+
+# Logs and temp files
+*.log
+**/server exited unexpectedly
+
+# Neovim
+config/nvim/nvim-pack-lock.json
+
+# MPV
+config/mpv/watch_later/
+config/mpv/memo-history.log
+
+# Btop
+config/btop/btop.log
+
+# Yazi
+config/yazi/state/
+config/yazi/flavors/
+config/yazi/plugins/
