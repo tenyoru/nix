@@ -16,6 +16,7 @@
     ({ pkgs, ... }: {
       home.packages = with pkgs; [
         pipewire.jack
+        zed-editor
         proton-pass
         openssl
         claude-code

@@ -1,12 +1,8 @@
-{ pkgs, config, lib, mylib, hostConfig, ... }:
-let
-  useConfig = mylib.useDotfiles hostConfig;
-  configPath = mylib.dotfileConfig "fish" + "/config.fish";
-in {
+{ pkgs, ... }:
+{
   programs.fish = {
     enable = true;
 
-    # Plugins always managed by nix
     plugins = [
       { name = "puffer-fish"; src = pkgs.fishPlugins.puffer.src; }
       { name = "z"; src = pkgs.fishPlugins.z.src; }
@@ -15,29 +11,38 @@ in {
       { name = "gruvbox"; src = pkgs.fishPlugins.gruvbox.src; }
     ];
 
-    interactiveShellInit =
-      if useConfig then ''
-        # Source config from dotfiles
-        if test -f ${configPath}
-          source ${configPath}
-        end
-      '' else ''
-        set fish_greeting
-        set -g fish_greeting
-        fish_vi_key_bindings
-        bind yy fish_clipboard_copy
-        bind Y fish_clipboard_copy
-        bind p fish_clipboard_paste
-        theme_gruvbox dark hard
-      '';
+    shellAliases = {
+      vim = "nvim";
+      v = "nvim";
+      g = "git";
+      ll = "ls -la";
+      la = "ls -A";
+      ".." = "cd ..";
+      "..." = "cd ../..";
+    };
+
+    interactiveShellInit = ''
+      set -g fish_greeting
+      fish_vi_key_bindings
+      bind -M default yy fish_clipboard_copy
+      bind -M default Y fish_clipboard_copy
+      bind -M default p fish_clipboard_paste
+      bind -M visual y fish_clipboard_copy
+      theme_gruvbox dark hard
+    '';
+
+    shellInit = ''
+      set -gx EDITOR nvim
+      set -gx VISUAL nvim
+      set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
+      set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+      set -gx FZF_ALT_C_COMMAND 'fd --type d --hidden --follow --exclude .git'
+    '';
   };
 
-  # Dependencies
   home.packages = with pkgs; [
     fzf
     fd
     bat
   ];
 }
-
-# run `tide configure` to set up tide theme
