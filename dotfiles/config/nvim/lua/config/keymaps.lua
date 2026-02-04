@@ -66,6 +66,10 @@ local km = {
   {"n", "<leader>fc", "<cmd>FzfLua cgrep_curbuf<cr>"},
   {"n", "<leader>fo", "<cmd>FzfLua oldfiles<cr>"},
   {"n", "<leader>fz", "<cmd>FzfLua<cr>"},
+  {"n", "<leader>ss", "<cmd>FzfLua lsp_document_symbols<cr>"},
+  {"n", "<leader>sr", "<cmd>FzfLua lsp_references<cr>"},
+  {"n", "<leader>sd", "<cmd>FzfLua lsp_workspace_diagnostics<cr>"},
+  {"n", "<leader>ca", "<cmd>FzfLua lsp_code_actions<cr>"},
 
   -- Substitute
   {"n", "<leader>as", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], {
@@ -115,14 +119,6 @@ local km = {
   {{"n", "v", "i"}, '<D-SPACE>', ''},
   {"i", "<C-d>", "<C-k>", { desc = "Digraph" }},
 }
-
--- Sniprun keybindings
-vim.schedule(function()
-  ks("n", "<leader>sr", "<cmd>SnipRun<cr>", { desc = "Run current line with SnipRun" })
-  ks("v", "<leader>sr", ":'<,'>SnipRun<cr>", { desc = "Run selection with SnipRun" })
-  ks("n", "<leader>sc", "<cmd>SnipClose<cr>", { desc = "Close SnipRun output" })
-  ks("n", "<leader>sR", "<cmd>SnipReset<cr>", { desc = "Reset SnipRun" })
-end)
 
 vim.schedule(function()
     for _, mapping in ipairs(km) do
