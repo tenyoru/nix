@@ -1,5 +1,41 @@
 local ks = vim.keymap.set
 
+local function send_to_claude(use_tmux)
+  local start_line = vim.fn.line("v")
+  local end_line = vim.fn.line(".")
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+  local code = table.concat(lines, "\n")
+
+  local file = vim.fn.expand("%:.")
+  local ft = vim.bo.filetype
+
+  local text = string.format("%s:%d-%d\n```%s\n%s\n```", file, start_line, end_line, ft, code)
+
+  if use_tmux then
+    local panes = vim.fn.systemlist("tmux list-panes -a -F '#{pane_id}:#{pane_current_command}'")
+    local target
+    for _, pane in ipairs(panes) do
+      if pane:match("claude") or pane:match("node") then
+        target = pane:match("^(%%[^:]+)")
+        break
+      end
+    end
+    if target then
+      vim.fn.system("tmux load-buffer -", text)
+      vim.fn.system("tmux paste-buffer -t " .. target)
+    else
+      vim.notify("Claude Code pane not found", vim.log.levels.WARN)
+    end
+  else
+    vim.fn.setreg("+", text)
+  end
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+end
+
 local function closeTab()
     local current = vim.fn.tabpagenr()
     local total = vim.fn.tabpagenr('$')
@@ -118,6 +154,10 @@ local km = {
   -- Misc
   {{"n", "v", "i"}, '<D-SPACE>', ''},
   {"i", "<C-d>", "<C-k>", { desc = "Digraph" }},
+
+  -- Send to Claude Code
+  {"v", "<leader>a", function() send_to_claude(false) end, { desc = "Copy selection for Claude Code" }},
+  -- {"v", "<leader>A", function() send_to_claude(true) end, { desc = "Send selection to Claude Code (tmux)" }},
 }
 
 vim.schedule(function()

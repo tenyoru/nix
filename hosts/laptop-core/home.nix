@@ -14,6 +14,7 @@
     "neovim"
     "mako"
     "ghostty"
+    "niri"
     ({ pkgs, ... }: {
       home.packages = with pkgs; [
         pipewire.jack
@@ -27,7 +28,6 @@
         notify-desktop
         protonvpn-gui
         guitarix
-        niri
         postgresql
         dfu-util
         ayugram-desktop

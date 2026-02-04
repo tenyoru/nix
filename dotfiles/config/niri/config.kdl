@@ -648,9 +648,23 @@ binds {
     Mod+Alt+S { spawn "systemctl" "suspend"; }
 
     // Focus or launch specific applications
-    Mod+Shift+T { spawn "bash" "-c" "~/.config/niri/scripts/focus-or-launch.sh com.mitchellh.ghostty ghostty"; }
-    Mod+Shift+B { spawn "bash" "-c" "~/.config/niri/scripts/focus-or-launch.sh org.qutebrowser.qutebrowser qutebrowser"; }
-    Mod+Shift+O { spawn "bash" "-c" "~/.config/niri/scripts/focus-or-launch.sh obsidian obsidian"; }
-    Mod+Shift+S { spawn "bash" "-c" "~/.config/niri/scripts/focus-or-launch.sh spotify spotify"; }
-    Mod+Shift+M { spawn "bash" "-c" "~/.config/niri/scripts/focus-or-launch.sh fluffychat fluffychat"; }
+    Mod+Shift+T {
+      spawn "bash" "-c" "$NIRI_RUN_SCRIPT com.mitchellh.ghostty ghostty";
+    }
+
+    Mod+Shift+B {
+      spawn "bash" "-c" "$NIRI_RUN_SCRIPT org.qutebrowser.qutebrowser qutebrowser";
+    }
+
+    Mod+Shift+O {
+      spawn "bash" "-c" "$NIRI_RUN_SCRIPT obsidian obsidian";
+    }
+
+    Mod+Shift+S {
+      spawn "bash" "-c" "$NIRI_RUN_SCRIPT spotify spotify";
+    }
+
+    Mod+Shift+M {
+      spawn "bash" "-c" "$NIRI_RUN_SCRIPT fluffychat fluffychat";
+    }
 }
