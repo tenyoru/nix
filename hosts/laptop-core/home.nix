@@ -1,6 +1,7 @@
 { mylib, ... }:
 {
   imports = mylib.getHomeModules [
+    "claude"
     "cli-suggar"
     "dev"
     "obs"

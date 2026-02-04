@@ -1,8 +1,8 @@
 # Qutebrowser
 config/qutebrowser/autoconfig.yml
-config/qutebrowser/bookmarks/
+# config/qutebrowser/bookmarks/
+# config/qutebrowser/quickmarks
 config/qutebrowser/qsettings/
-config/qutebrowser/quickmarks
 
 # Fish
 config/fish/fish_variables

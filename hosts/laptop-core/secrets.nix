@@ -27,6 +27,11 @@ in
         owner = username;
         mode = "0400";
       };
+      context7_api_key = {
+        key = "context7_api_key";
+        owner = username;
+        mode = "0400";
+      };
     };
   };
 }
