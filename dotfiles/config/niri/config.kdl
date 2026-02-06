@@ -20,6 +20,7 @@ environment {
     // "HYPRCURSOR_SIZE,24"
     NIXOS_OZONE_WL "1"
     BROWSER "zen-twilight"
+    NIRI_RUN_SCRIPT "/home/Tenyoru/.nixos/dotfiles/config/niri/scripts/focus-or-launch.sh"
 }
 
 cursor {
@@ -368,6 +369,7 @@ window-rule {
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
+    draw-border-with-background false
 }
 
 

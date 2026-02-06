@@ -9,6 +9,7 @@
     "anyrun"
     "git"
     "zathura"
+    "qutebrowser"
     "tmux"
     "fish"
     "neovim"
@@ -54,7 +55,6 @@
         veracrypt
         uv
         hugo
-        qutebrowser
         dart-sass
         gdal
         mpd
@@ -70,6 +70,7 @@
         go
         fluffychat
         cloudflared
+        obsidian
       ];
     })
   ];

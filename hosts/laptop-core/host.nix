@@ -14,6 +14,7 @@
     "networking"
     "programs"
     "services"
+    "syncthing"
     ({ pkgs, ... }: { environment.systemPackages = with pkgs; [
       git
       webkitgtk_4_1
