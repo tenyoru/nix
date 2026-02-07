@@ -4,17 +4,17 @@
   mylib = import ./lib {inherit lib self;};
 
   getHosts = let
-    entries = builtins.readDir "${self}/hosts";
+    entries = builtins.readDir "${self}/devices";
     entryNames = builtins.attrNames entries;
   in
     builtins.filter (name: entries.${name} == "directory") entryNames;
 
   hostConfigs = builtins.listToAttrs (map (name: let
-    path = "${self}/hosts/${name}";
+    path = "${self}/devices/${name}";
     mods = mylib.getModulePath;
   in {
     name = name;
-    value = import ("${self}/hosts/${name}/default.nix") {
+    value = import ("${self}/devices/${name}/default.nix") {
       inherit
         path
         mods
