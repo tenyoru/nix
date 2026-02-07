@@ -1,10 +1,6 @@
 { lib, hostConfig, ... }:
 let
-  defaultGit = {
-    userName = "tenyoru";
-    userEmail = "mail@tenyoru.io";
-  };
-  gitConfig = (hostConfig.git or {}) // defaultGit;
+  gitConfig = hostConfig.git;
 in
 {
   programs.git = {

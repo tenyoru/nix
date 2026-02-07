@@ -54,6 +54,7 @@ sync: switch commit push
 commit: sops-check
     @printf '\033[1;33mCommitting changes...\033[0m\n'
     jj describe -m "feat: update flake $(date '+%Y-%m-%d %H:%M:%S')" || echo "Nothing to commit"
+    jj bookmark set main -r @
 
 # Push to remote
 push:

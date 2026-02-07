@@ -7,6 +7,7 @@
     "obs"
     "zen-browser"
     "anyrun"
+    "git"
     "jujutsu"
     "zathura"
     "qutebrowser"
