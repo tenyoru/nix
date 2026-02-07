@@ -48,6 +48,7 @@
         wf-recorder
         wireguard-tools
         qpwgraph
+        pavucontrol
         taskwarrior3
         timewarrior
         jmtpfs

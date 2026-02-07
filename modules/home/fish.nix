@@ -34,6 +34,7 @@
     shellInit = ''
       set -gx EDITOR nvim
       set -gx VISUAL nvim
+      set -gx NIX_BUILD_SHELL ${pkgs.fish}/bin/fish
       set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
       set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
       set -gx FZF_ALT_C_COMMAND 'fd --type d --hidden --follow --exclude .git'
