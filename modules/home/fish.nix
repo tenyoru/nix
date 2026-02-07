@@ -14,7 +14,6 @@
     shellAliases = {
       vim = "nvim";
       v = "nvim";
-      g = "git";
       ll = "ls -la";
       la = "ls -A";
       ".." = "cd ..";

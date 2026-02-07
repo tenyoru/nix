@@ -7,7 +7,7 @@
     "obs"
     "zen-browser"
     "anyrun"
-    "git"
+    "jujutsu"
     "zathura"
     "qutebrowser"
     "tmux"
@@ -19,15 +19,9 @@
     ({ pkgs, ... }: {
       home.packages = with pkgs; [
         pipewire.jack
-        zed-editor
-        proton-pass
         openssl
-        claude-code
         imagemagick
-        nodejs
-        jujutsu
         notify-desktop
-        protonvpn-gui
         guitarix
         postgresql
         dfu-util

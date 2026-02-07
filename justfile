@@ -53,7 +53,6 @@ sync: switch commit push
 # Commit all changes (checks secrets first)
 commit: sops-check
     @printf '\033[1;33mCommitting changes...\033[0m\n'
-    git add .
     git commit -m "feat: update flake $(date '+%Y-%m-%d %H:%M:%S')" || echo "Nothing to commit"
 
 # Push to remote
