@@ -11,9 +11,8 @@ c.url.start_pages = ['tenyoru.io']
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.preferred_color_scheme = 'dark'
 
-
 def bind_open(key, url):
-    config.bind(f',{key}', f'open -t {url}')
+    config.bind(f',{key}', f'open {url}')
 
 bind_open('cc', 'claude.ai')
 bind_open('cg', 'chatgpt.com')

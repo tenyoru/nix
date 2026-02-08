@@ -5,7 +5,6 @@
     "cli-suggar"
     "dev"
     "obs"
-    "zen-browser"
     "anyrun"
     "git"
     "jujutsu"
