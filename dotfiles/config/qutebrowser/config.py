@@ -12,7 +12,7 @@ c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.preferred_color_scheme = 'dark'
 
 def bind_open(key, url):
-    config.bind(f',{key}', f'open {url}')
+    config.bind(f',{key}', f'open -t {url}')
 
 bind_open('cc', 'claude.ai')
 bind_open('cg', 'chatgpt.com')
