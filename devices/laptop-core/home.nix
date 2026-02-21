@@ -21,6 +21,7 @@
         pipewire.jack
         openssl
         imagemagick
+        spotify
         notify-desktop
         guitarix
         postgresql

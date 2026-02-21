@@ -6,6 +6,8 @@ in
 {
   home.packages = [
     pkgs.niri
+    pkgs.playerctl
+    pkgs.wl-clipboard
   ];
 
   xdg.configFile."niri".source =
