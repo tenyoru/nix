@@ -69,7 +69,7 @@
 in {
   nixosConfigurations = nixosConfigs;
 
-  devShells = (
+  devShells = forAllSystems (
     system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
@@ -88,7 +88,7 @@ in {
         ];
         name = "dots";
         shellHook = ''
-          ${self.checks.${system}.pre-commit-check.shellHook}
+          exec fish
         '';
       };
     }
