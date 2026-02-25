@@ -37,6 +37,6 @@
   # services.xserver.xkb = {
   #   layout = "us";
   #   variant = "";
-    # options = "eurosign:e,caps:escape";
+  # options = "eurosign:e,caps:escape";
   # };
 }

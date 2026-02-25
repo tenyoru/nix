@@ -1,8 +1,12 @@
-{ config, lib, pkgs, hostConfig, ...}:
-let
-  username = hostConfig.username;
-in
 {
+  config,
+  lib,
+  pkgs,
+  hostConfig,
+  ...
+}: let
+  username = hostConfig.username;
+in {
   documentation.nixos.enable = false;
   nixpkgs.config = {
     allowUnfree = true;

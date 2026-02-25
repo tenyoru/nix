@@ -1,8 +1,11 @@
-{ path, mylib, ... }: let
+{
+  path,
+  mylib,
+  ...
+}: let
   dirModules = mylib.scanPaths path;
-  hostModules = import ./host.nix { inherit mylib; };
-  homeModules = import ./home.nix { inherit mylib; };
-
+  hostModules = import ./host.nix {inherit mylib;};
+  homeModules = import ./home.nix {inherit mylib;};
 in {
   username = "Tenyoru";
   name = "core";

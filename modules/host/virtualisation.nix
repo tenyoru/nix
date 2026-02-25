@@ -1,5 +1,9 @@
-{ pkgs, hostConfig, ... }: {
-  users.groups.libvirtd.members = [ hostConfig.username ];
+{
+  pkgs,
+  hostConfig,
+  ...
+}: {
+  users.groups.libvirtd.members = [hostConfig.username];
 
   boot.kernelModules = ["kvm-amd"];
   boot.extraModprobeConfig = "options kvm_amd nested=1";

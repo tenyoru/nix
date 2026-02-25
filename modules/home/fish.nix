@@ -1,14 +1,28 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs.fish = {
     enable = true;
 
     plugins = [
-      { name = "puffer-fish"; src = pkgs.fishPlugins.puffer.src; }
-      { name = "z"; src = pkgs.fishPlugins.z.src; }
-      { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; }
-      { name = "tide"; src = pkgs.fishPlugins.tide.src; }
-      { name = "gruvbox"; src = pkgs.fishPlugins.gruvbox.src; }
+      {
+        name = "puffer-fish";
+        src = pkgs.fishPlugins.puffer.src;
+      }
+      {
+        name = "z";
+        src = pkgs.fishPlugins.z.src;
+      }
+      {
+        name = "fzf-fish";
+        src = pkgs.fishPlugins.fzf-fish.src;
+      }
+      {
+        name = "tide";
+        src = pkgs.fishPlugins.tide.src;
+      }
+      {
+        name = "gruvbox";
+        src = pkgs.fishPlugins.gruvbox.src;
+      }
     ];
 
     shellAliases = {

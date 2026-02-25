@@ -1,7 +1,9 @@
-{ config, pkgs, ... }:
-
 {
-  home.packages = [ pkgs.xorg.xkbcomp ]; # если нужно для отладки/установки
+  config,
+  pkgs,
+  ...
+}: {
+  home.packages = [pkgs.xorg.xkbcomp]; # если нужно для отладки/установки
 
   xsession = {
     enable = true;

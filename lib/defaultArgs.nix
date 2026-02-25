@@ -13,5 +13,5 @@
 
   # List of keys to exclude when merging configurations.
   # These keys will not be included in the final configuration.
-  excludeKeys = [ "excludeKeys" "modules" "name" ];
+  excludeKeys = ["excludeKeys" "modules" "name"];
 }

@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   hardware = {
     keyboard.qmk.enable = true;
     enableRedistributableFirmware = true;

@@ -1,8 +1,11 @@
-{ lib, hostConfig, pkgs, ... }:
-let
-  gitConfig = hostConfig.git;
-in
 {
+  lib,
+  hostConfig,
+  pkgs,
+  ...
+}: let
+  gitConfig = hostConfig.git;
+in {
   programs.jujutsu = {
     enable = true;
     settings = {

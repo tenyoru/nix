@@ -1,13 +1,18 @@
-{ config, lib, pkgs, ... }:
-let
-  audioConfig = {
-    lowLatency = true;
-    noiseCancellation = true;
-    clockRate = 48000;
-    quantum = 256;
-  } // (config._module.args.audio or {});
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  audioConfig =
+    {
+      lowLatency = true;
+      noiseCancellation = true;
+      clockRate = 48000;
+      quantum = 256;
+    }
+    // (config._module.args.audio or {});
+in {
   #sound.enable = true;
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -111,7 +116,7 @@ in
               };
               "audio.rate" = audioConfig.clockRate;
               "audio.channels" = 2;
-              "audio.position" = [ "FL" "FR" ];
+              "audio.position" = ["FL" "FR"];
               "capture.props" = {
                 "node.name" = "clean_mic_input";
                 "node.passive" = true;

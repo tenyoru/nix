@@ -1,5 +1,4 @@
-{ mylib, ... }:
-{
+{mylib, ...}: {
   imports = mylib.getHostModules [
     "fonts"
     "locale"
@@ -15,11 +14,13 @@
     "programs"
     "services"
     "syncthing"
-    ({ pkgs, ... }: { environment.systemPackages = with pkgs; [
-      git
-      webkitgtk_4_1
-      networkmanager
-    ];})
+    ({pkgs, ...}: {
+      environment.systemPackages = with pkgs; [
+        git
+        webkitgtk_4_1
+        networkmanager
+      ];
+    })
     ./secrets.nix
   ];
 }

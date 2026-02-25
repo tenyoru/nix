@@ -1,5 +1,12 @@
-{ inputs, pkgs, config, lib, mylib, hostConfig, ... }:
-let
+{
+  inputs,
+  pkgs,
+  config,
+  lib,
+  mylib,
+  hostConfig,
+  ...
+}: let
   useConfig = mylib.useDotfiles hostConfig;
 in {
   programs.neovim = {
