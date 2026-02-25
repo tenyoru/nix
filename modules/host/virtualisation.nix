@@ -5,7 +5,6 @@
   boot.extraModprobeConfig = "options kvm_amd nested=1";
 
   virtualisation = {
-    docker.enable = true;
     libvirtd.enable = true;
     spiceUSBRedirection.enable = true;
 

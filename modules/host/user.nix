@@ -6,7 +6,6 @@ in {
 
   users.groups = {
     "${username}" = {};
-    docker = {};
     wireshark = {};
     # for android platform tools's udev rules
     adbusers = {};
@@ -27,7 +26,6 @@ in {
       "users"
       "networkmanager"
       "wheel"
-      "docker"
       "wireshark"
       "adbusers"
       "libvirtd"
