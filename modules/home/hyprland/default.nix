@@ -1,15 +1,13 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   alphabet = ["a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z"];
 
-  generateKeyBindings = action: builtins.concatStringsSep "" (builtins.map (key: ''
-    bind = , ${key}, scroller:${action}, ${key}
-    bind = , ${key}, submap, reset
-  '') alphabet);
-in
-
-{
+  generateKeyBindings = action:
+    builtins.concatStringsSep "" (builtins.map (key: ''
+        bind = , ${key}, scroller:${action}, ${key}
+        bind = , ${key}, submap, reset
+      '')
+      alphabet);
+in {
   home.packages = with pkgs; [
     # waybar
     wl-clipboard
@@ -22,11 +20,11 @@ in
   ];
 
   imports = [
-      ../anyrun.nix
-      ./hyprpaper.nix
-      ./hyprlock.nix
-      ./hypridle.nix
-    ];
+    ../anyrun.nix
+    ./hyprpaper.nix
+    ./hyprlock.nix
+    ./hypridle.nix
+  ];
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -38,112 +36,112 @@ in
 
     systemd.variables = ["--all"];
     settings = {
-        monitor = [
-          "eDP-1, 1920x1200@60, 0x0, 1"
-          "DP-2, 3840x2160@120, -3840x0,1"
+      monitor = [
+        "eDP-1, 1920x1200@60, 0x0, 1"
+        "DP-2, 3840x2160@120, -3840x0,1"
+      ];
+      exec-once = [
+        "foot --server"
+        "mako"
+        #"waybar"
+        "hypridle"
+        "mpd --no-daemon ~/.config/mpd/mpd.conf"
+      ];
+
+      env = [
+        # "WLR_NO_HARDWARE_CURSORS,1"
+        "GTK_THEME,Gruvbox-Dark"
+
+        #useless shit
+        "HYPRCURSOR_THEME,Notwaita-Black"
+        "HYPRCURSOR_SIZE,24"
+        "XCURSOR_THEME,Notwaita-Black"
+        "XCURSOR_SIZE,24"
+        "NIXOS_OZONE_WL,1"
+        "BROWSER,librewolf"
+        # "XDG_BROWSER=librewolf"
+      ];
+
+      general = {
+        gaps_in = 0;
+        gaps_out = 0;
+        border_size = 2;
+
+        resize_on_border = false;
+        allow_tearing = true;
+        layout = "scroller";
+
+        "col.active_border" = "rgb(ebdbb2)";
+        "col.inactive_border" = "rgb(282828)";
+      };
+
+      decoration = {
+        rounding = 0;
+
+        active_opacity = 1.0;
+        inactive_opacity = 1.0;
+
+        # drop_shadow = true;
+        # shadow_range = 4;
+        # shadow_render_power = 3;
+
+        blur = {
+          enabled = true;
+          size = 3;
+          passes = 1;
+
+          vibrancy = 0.1696;
+        };
+      };
+
+      input = {
+        kb_layout = "us,ru";
+        kb_options = "grp:win_space_toggle";
+
+        follow_mouse = 1;
+
+        sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
+
+        touchpad = {
+          natural_scroll = false;
+        };
+      };
+
+      misc = {
+        disable_splash_rendering = true;
+        disable_hyprland_logo = true;
+        background_color = "0x121212";
+      };
+
+      gestures = {
+        workspace_swipe = false;
+      };
+
+      cursor = {
+        enable_hyprcursor = false;
+      };
+
+      animations = {
+        enabled = false;
+
+        # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
+
+        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+
+        animation = [
+          "windows, 1, 7, myBezier"
+          "windowsOut, 1, 7, default, popin 80%"
+          "border, 1, 10, default"
+          "borderangle, 1, 8, default"
+          "fade, 1, 7, default"
+          "workspaces, 1, 6, default"
         ];
-        exec-once = [
-          "foot --server"
-          "mako"
-          #"waybar"
-          "hypridle"
-          "mpd --no-daemon ~/.config/mpd/mpd.conf"
-        ];
+      };
 
-        env = [
-          # "WLR_NO_HARDWARE_CURSORS,1"
-          "GTK_THEME,Gruvbox-Dark"
+      "$mod" = "SUPER";
 
-          #useless shit
-          "HYPRCURSOR_THEME,Notwaita-Black"
-          "HYPRCURSOR_SIZE,24"
-          "XCURSOR_THEME,Notwaita-Black"
-          "XCURSOR_SIZE,24"
-          "NIXOS_OZONE_WL,1"
-          "BROWSER,librewolf"
-          # "XDG_BROWSER=librewolf"
-        ];
-
-        general = {
-          gaps_in = 0;
-          gaps_out = 0;
-          border_size = 2;
-
-          resize_on_border = false;
-          allow_tearing = true;
-          layout = "scroller";
-
-          "col.active_border" = "rgb(ebdbb2)";
-          "col.inactive_border" = "rgb(282828)";
-        };
-
-        decoration = {
-            rounding = 0;
-
-            active_opacity = 1.0;
-            inactive_opacity = 1.0;
-
-            # drop_shadow = true;
-            # shadow_range = 4;
-            # shadow_render_power = 3;
-
-            blur = {
-                enabled = true;
-                size = 3;
-                passes = 1;
-
-                vibrancy = 0.1696;
-            };
-        };
-
-        input = {
-            kb_layout = "us,ru";
-            kb_options = "grp:win_space_toggle";
-
-            follow_mouse = 1;
-
-            sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
-
-            touchpad = {
-                natural_scroll = false;
-            };
-        };
-
-        misc = {
-            disable_splash_rendering = true;
-            disable_hyprland_logo = true;
-            background_color = "0x121212";
-        };
-
-        gestures = {
-            workspace_swipe = false;
-        };
-
-        cursor = {
-            enable_hyprcursor = false;
-        };
-
-        animations = {
-            enabled = false;
-
-            # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-
-            bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-
-            animation =
-              [
-                "windows, 1, 7, myBezier"
-                "windowsOut, 1, 7, default, popin 80%"
-                "border, 1, 10, default"
-                "borderangle, 1, 8, default"
-                "fade, 1, 7, default"
-                "workspaces, 1, 6, default"
-              ];
-        };
-
-        "$mod" = "SUPER";
-
-        bind = [
+      bind =
+        [
           "$mod, C, killactive,"
           "$mod SHIFT, O, exit,"
           "$mod, Q, exec, footclient"
@@ -202,8 +200,9 @@ in
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (builtins.genList (i:
-              let ws = i + 1;
+          builtins.concatLists (builtins.genList (
+              i: let
+                ws = i + 1;
               in [
                 "$mod, code:1${toString i}, workspace, ${toString ws}"
                 "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
@@ -212,17 +211,17 @@ in
             9)
         );
 
-        bindm = [
-          "$mod, mouse:272, movewindow"
-          "$mod, mouse:273, resizewindow"
-        ];
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
 
-        windowrulev2 = [
-          "suppressevent maximize, class:.* "
-          "idleinhibit fullscreen, class:^(*)$"
-          "idleinhibit fullscreen, title:^(*)$"
-          "idleinhibit fullscreen, fullscreen:1"
-        ];
+      windowrulev2 = [
+        "suppressevent maximize, class:.* "
+        "idleinhibit fullscreen, class:^(*)$"
+        "idleinhibit fullscreen, title:^(*)$"
+        "idleinhibit fullscreen, fullscreen:1"
+      ];
     };
 
     extraConfig = ''

@@ -1,9 +1,11 @@
-{ config, pkgs, mylib, ... }:
-
-let
-  niriDir = mylib.dotfileConfig "niri";
-in
 {
+  config,
+  pkgs,
+  mylib,
+  ...
+}: let
+  niriDir = mylib.dotfileConfig "niri";
+in {
   home.packages = [
     pkgs.niri
     pkgs.playerctl

@@ -1,5 +1,4 @@
-{ mylib, ... }:
-{
+{mylib, ...}: {
   imports = mylib.getHomeModules [
     "claude"
     "cli-suggar"
@@ -16,7 +15,7 @@
     "mako"
     "ghostty"
     "niri"
-    ({ pkgs, ... }: {
+    ({pkgs, ...}: {
       home.packages = with pkgs; [
         pipewire.jack
         openssl

@@ -9,10 +9,10 @@
         no_fade_in = false;
       };
       background = {
-          monitor = "";
-          path = "screenshot";
-          color = "rgba(25, 20, 20, 1.0)";
-          blur_passes = 2;
+        monitor = "";
+        path = "screenshot";
+        color = "rgba(25, 20, 20, 1.0)";
+        blur_passes = 2;
       };
       input-field = [
         {

@@ -1,10 +1,9 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     tmp.cleanOnBoot = true;
     initrd = {
-      kernelModules = [ "amdgpu" ];
+      kernelModules = ["amdgpu"];
       systemd.enable = true;
       verbose = false;
     };

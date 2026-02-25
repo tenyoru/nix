@@ -1,5 +1,4 @@
-{ mylib, ... }:
-{
+{mylib, ...}: {
   services.kanata = {
     enable = true;
     keyboards.default = {

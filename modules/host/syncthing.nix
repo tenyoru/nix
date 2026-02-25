@@ -1,9 +1,12 @@
-{ config, pkgs, hostConfig, ... }:
-let
+{
+  config,
+  pkgs,
+  hostConfig,
+  ...
+}: let
   username = hostConfig.username;
   homeDir = "/home/${username}";
-in
-{
+in {
   services.syncthing = {
     enable = true;
     user = username;

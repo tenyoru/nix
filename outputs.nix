@@ -1,4 +1,8 @@
-{self, nixpkgs, ...} @ inputs: let
+{
+  self,
+  nixpkgs,
+  ...
+} @ inputs: let
   inherit (inputs.nixpkgs) lib;
 
   mylib = import ./lib {inherit lib self;};
@@ -10,62 +14,72 @@
     builtins.filter (name: entries.${name} == "directory") entryNames;
 
   hostConfigs = builtins.listToAttrs (map (name: let
-    path = "${self}/devices/${name}";
-    mods = mylib.getModulePath;
-  in {
-    name = name;
-    value = import ("${self}/devices/${name}/default.nix") {
-      inherit
-        path
-        mods
-        mylib
-        ;
-    };
-  }) getHosts);
-
-  nixosConfigs = builtins.listToAttrs (map (name: let
-    host = hostConfigs.${name};
-    hostModules = host.modules.host or [];
-    hostConfig = mylib.mergeConfig host;
-
-    homeModules = host.modules.home or [];
-    system = hostConfig.platform;
-
-    extraModules = [
-      # Here you can add base modules that should always be included
-      "${self}/modules/base.nix"
-    ] ++ (if builtins.hasAttr "home" host.modules then [ "${self}/home" ] else []);
-  in {
-    name = host.name or name;
-
-    value = lib.nixosSystem {
-      specialArgs = {
-        inherit system;
+      path = "${self}/devices/${name}";
+      mods = mylib.getModulePath;
+    in {
+      name = name;
+      value = import "${self}/devices/${name}/default.nix" {
         inherit
-          inputs
-          self
-          hostConfig
+          path
+          mods
           mylib
-          lib
-          homeModules
           ;
       };
+    })
+    getHosts);
 
-      modules = with inputs; [
-        home-manager.nixosModules.home-manager
-        disko.nixosModules.disko
-        sops-nix.nixosModules.sops
-        {
-          home-manager.sharedModules = homeModules;
-        }
-      ] ++ hostModules ++ extraModules;
-    };
-  }) getHosts);
+  nixosConfigs = builtins.listToAttrs (map (name: let
+      host = hostConfigs.${name};
+      hostModules = host.modules.host or [];
+      hostConfig = mylib.mergeConfig host;
 
-  forAllSystems = func:
-    let
-      allSystemNames = builtins.attrValues (builtins.mapAttrs (_: host: host.platform) hostConfigs);
-    in nixpkgs.lib.genAttrs allSystemNames func;
+      homeModules = host.modules.home or [];
+      system = hostConfig.platform;
+
+      extraModules =
+        [
+          # Here you can add base modules that should always be included
+          "${self}/modules/base.nix"
+        ]
+        ++ (
+          if builtins.hasAttr "home" host.modules
+          then ["${self}/home"]
+          else []
+        );
+    in {
+      name = host.name or name;
+
+      value = lib.nixosSystem {
+        specialArgs = {
+          inherit system;
+          inherit
+            inputs
+            self
+            hostConfig
+            mylib
+            lib
+            homeModules
+            ;
+        };
+
+        modules = with inputs;
+          [
+            home-manager.nixosModules.home-manager
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+            {
+              home-manager.sharedModules = homeModules;
+            }
+          ]
+          ++ hostModules ++ extraModules;
+      };
+    })
+    getHosts);
+
+  forAllSystems = func: let
+    allSystemNames = builtins.attrValues (builtins.mapAttrs (_: host: host.platform) hostConfigs);
+  in
+    nixpkgs.lib.genAttrs allSystemNames func;
 in {
   nixosConfigurations = nixosConfigs;
 

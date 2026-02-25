@@ -1,12 +1,15 @@
-{ config, hostConfig, pkgs, ... }:
-let
-  username = hostConfig.username;
-in
 {
+  config,
+  hostConfig,
+  pkgs,
+  ...
+}: let
+  username = hostConfig.username;
+in {
   services = {
     nextdns = {
       enable = true;
-      arguments = [ "-config" "abcdef" "-cache-size" "10MB" ];
+      arguments = ["-config" "abcdef" "-cache-size" "10MB"];
     };
     udisks2.enable = true;
     blueman.enable = true;

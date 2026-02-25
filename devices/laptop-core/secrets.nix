@@ -1,9 +1,11 @@
-{ config, hostConfig, ... }:
-let
+{
+  config,
+  hostConfig,
+  ...
+}: let
   username = hostConfig.username;
   secretsPath = "${config.users.users.${username}.home}/.config/sops/age/keys.txt";
-in
-{
+in {
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     age.keyFile = secretsPath;

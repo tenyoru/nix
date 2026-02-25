@@ -1,5 +1,9 @@
-{ config, mylib, pkgs, ... }:
 {
+  config,
+  mylib,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     claude-code
     nodejs

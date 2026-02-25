@@ -1,4 +1,10 @@
-{ pkgs, hostConfig, inputs, mylib, ... }: let
+{
+  pkgs,
+  hostConfig,
+  inputs,
+  mylib,
+  ...
+}: let
   username = hostConfig.username;
 in {
   documentation.nixos.enable = false;
@@ -24,5 +30,4 @@ in {
 
   programs.nano.enable = false;
   programs.fish.enable = true;
-
 }

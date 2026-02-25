@@ -1,4 +1,8 @@
-{ pkgs, hostConfig, ... }: let
+{
+  pkgs,
+  hostConfig,
+  ...
+}: let
   username = hostConfig.username;
 in {
   # Don't allow mutation of users outside the config.

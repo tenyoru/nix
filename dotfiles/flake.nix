@@ -3,7 +3,7 @@
 
   inputs = {};
 
-  outputs = { self, ... }: rec {
+  outputs = {self, ...}: rec {
     # Short alias
     homeModule = homeManagerModules.default;
 
@@ -24,7 +24,11 @@
     };
 
     # Home Manager module (symlinks only, deps handled by main modules)
-    homeManagerModules.default = { config, lib, ... }: let
+    homeManagerModules.default = {
+      config,
+      lib,
+      ...
+    }: let
       cfg = config.dotfiles;
       enabledConfigs = lib.filterAttrs (_: v: v) cfg.configs;
       configNames = lib.attrNames enabledConfigs;
@@ -50,12 +54,13 @@
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
           xdg.configFile = lib.mkMerge (map (name: {
-            ${name}.source = config.lib.file.mkOutOfStoreSymlink "${cfg.path}/config/${name}";
-          }) configNames);
+              ${name}.source = config.lib.file.mkOutOfStoreSymlink "${cfg.path}/config/${name}";
+            })
+            configNames);
         }
 
         (lib.mkIf cfg.bin {
-          home.sessionPath = [ "${cfg.path}/bin" ];
+          home.sessionPath = ["${cfg.path}/bin"];
         })
       ]);
     };
