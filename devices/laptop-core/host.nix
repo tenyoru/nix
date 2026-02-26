@@ -8,6 +8,7 @@
     "ssh"
     "wayland"
     "virtualisation"
+    "docker"
     "boot"
     "hardware"
     "networking"
