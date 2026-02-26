@@ -21,6 +21,9 @@ environment {
     NIXOS_OZONE_WL "1"
     BROWSER "zen-twilight"
     NIRI_RUN_SCRIPT "/home/Tenyoru/.nixos/dotfiles/config/niri/scripts/focus-or-launch.sh"
+
+    // Qt wayland settings - disable window decorations
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
 }
 
 cursor {
@@ -369,6 +372,18 @@ window-rule {
     geometry-corner-radius 0
     clip-to-geometry true
     draw-border-with-background false
+}
+
+// Disable CSD for Obsidian
+window-rule {
+    match app-id=r#"obsidian"#
+    draw-border-with-background true
+}
+
+// Disable CSD for Ayugram
+window-rule {
+    match app-id=r#"^com\.ayugram\.desktop$"#
+    draw-border-with-background true
 }
 
 

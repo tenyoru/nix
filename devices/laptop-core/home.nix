@@ -15,12 +15,12 @@
     "mako"
     "ghostty"
     "niri"
+    "spotify"
     ({pkgs, ...}: {
       home.packages = with pkgs; [
         pipewire.jack
         openssl
         imagemagick
-        spotify
         notify-desktop
         guitarix
         postgresql
@@ -58,6 +58,7 @@
         mpc
         blender
         freecad
+        bambu-studio
         ssh-agents
         rustup
         anki-bin
