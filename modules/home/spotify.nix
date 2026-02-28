@@ -18,7 +18,6 @@
       historyShortcut
     ];
 
-    theme = spicePkgs.themes.sleek;
-    colorScheme = "VantaBlack";
+    theme = spicePkgs.themes.text;
   };
 }
