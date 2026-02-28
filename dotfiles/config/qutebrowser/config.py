@@ -8,7 +8,7 @@ c.url.searchengines = {
     'aw': 'https://wiki.archlinux.org/?search={}'
 }
 c.url.start_pages = ['tenyoru.io']
-c.colors.webpage.darkmode.enabled = True
+# c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.preferred_color_scheme = 'dark'
 
 def bind_open(key, url):

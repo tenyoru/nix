@@ -10,7 +10,6 @@ in {
   username = "Tenyoru";
   name = "core";
   platform = "x86_64-linux";
-  vcs = "jujutsu-only";
 
   dotfiles = {
     enable = true;

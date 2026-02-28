@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a NixOS flake-based configuration using a modular architecture with home-manager integration. The configuration supports multiple hosts (currently: `laptop-core`) and uses jujutsu for version control.
+This is a NixOS flake-based configuration using a modular architecture with home-manager integration. The configuration supports multiple hosts (currently: `laptop-core`) and uses git for version control.
 
 ## Build and Development Commands
 
@@ -17,7 +17,7 @@ This is a NixOS flake-based configuration using a modular architecture with home
 - `just gc` - Garbage collect old store paths
 - `just clean` - Remove old generations and garbage collect
 
-### Version Control (Jujutsu)
+### Version Control (Git)
 - `just sync` - Switch, commit, and push changes
 - `just commit` - Commit changes (after sops-check validation)
 - `just push` - Push to remote
@@ -117,7 +117,7 @@ Both approaches always install dependencies (plugins, LSPs, etc.).
 
 ## Important Conventions
 
-1. **Version Control**: This repository uses **jujutsu** for VCS (not git directly). Use `jj` commands or the justfile recipes.
+1. **Version Control**: This repository uses **git** for VCS. Use `git` commands or the justfile recipes.
 
 2. **Secrets**: Always verify secrets are encrypted before committing with `just sops-check`. The commit command includes this check automatically.
 

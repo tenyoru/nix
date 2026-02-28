@@ -5,7 +5,7 @@
   hmStateVersion = "24.11";
   platform = "x86_64-linux";
 
-  # Git and Jujutsu configuration
+  # Git configuration
   git = {
     userName = "tenyoru";
     userEmail = "mail@tenyoru.io";
