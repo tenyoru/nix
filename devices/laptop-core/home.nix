@@ -6,7 +6,6 @@
     "obs"
     "anyrun"
     "git"
-    "jujutsu"
     "zathura"
     "qutebrowser"
     "tmux"
@@ -67,6 +66,7 @@
         fluffychat
         cloudflared
         obsidian
+        proton-pass
       ];
     })
   ];

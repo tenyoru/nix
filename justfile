@@ -21,9 +21,9 @@ update:
     @printf '\033[0;34m=== NixOS Flake Update ===\033[0m\n'
     @printf '\033[1;33mUpdating all flake inputs...\033[0m\n'
     nix flake update
-    @if jj diff flake.lock | grep -q "^+.*narHash"; then \
+    @if git diff flake.lock | grep -q "^+.*narHash"; then \
         printf '\033[0;32mChanges detected in flake.lock\033[0m\n'; \
-        jj diff flake.lock | grep "^\+.*url\|^\-.*url" || true; \
+        git diff flake.lock | grep "^\+.*url\|^\-.*url" || true; \
     else \
         printf '\033[1;33mNo changes in flake.lock\033[0m\n'; \
     fi
@@ -33,9 +33,9 @@ update-input INPUT:
     @printf '\033[0;34m=== NixOS Flake Update ===\033[0m\n'
     @printf '\033[1;33mUpdating input: {{INPUT}}\033[0m\n'
     nix flake lock --update-input {{INPUT}}
-    @if jj diff flake.lock | grep -q "^+.*narHash"; then \
+    @if git diff flake.lock | grep -q "^+.*narHash"; then \
         printf '\033[0;32mChanges detected in flake.lock\033[0m\n'; \
-        jj diff flake.lock | grep "^\+.*url\|^\-.*url" || true; \
+        git diff flake.lock | grep "^\+.*url\|^\-.*url" || true; \
     else \
         printf '\033[1;33mNo changes in flake.lock\033[0m\n'; \
     fi
@@ -53,14 +53,14 @@ sync: switch commit push
 # Commit all changes (checks secrets first)
 commit: sops-check
     @printf '\033[1;33mCommitting changes...\033[0m\n'
-    jj describe -m "feat: update flake $(date '+%Y-%m-%d %H:%M:%S')" || echo "Nothing to commit"
-    jj bookmark set main -r @
+    git add .
+    git commit -m "feat: update flake $(date '+%Y-%m-%d %H:%M:%S')" || echo "Nothing to commit"
 
 
 # Push to remote
 push:
     @printf '\033[1;33mPushing to remote...\033[0m\n'
-    jj git push
+    git push
 
 # Garbage collect old store paths
 gc:
