@@ -28,107 +28,53 @@
     })
     getHosts);
 
-  nixosConfigs = builtins.listToAttrs (
-    builtins.filter (x: x != null) (map (name: let
-        host = hostConfigs.${name};
-        isNixOnDroid = (host.type or "") == "nix-on-droid";
-      in
-        if isNixOnDroid
-        then null
-        else let
-          hostModules = host.modules.host or [];
-          hostConfig = mylib.mergeConfig host;
+  nixosConfigs = builtins.listToAttrs (map (name: let
+      host = hostConfigs.${name};
+      hostModules = host.modules.host or [];
+      hostConfig = mylib.mergeConfig host;
 
-          homeModules = host.modules.home or [];
-          system = hostConfig.platform;
+      homeModules = host.modules.home or [];
+      system = hostConfig.platform;
 
-          extraModules =
-            [
-              # Here you can add base modules that should always be included
-              "${self}/modules/base.nix"
-            ]
-            ++ (
-              if builtins.hasAttr "home" host.modules
-              then ["${self}/home"]
-              else []
-            );
-        in {
-          name = host.name or name;
+      extraModules =
+        [
+          # Here you can add base modules that should always be included
+          "${self}/modules/base.nix"
+        ]
+        ++ (
+          if builtins.hasAttr "home" host.modules
+          then ["${self}/home"]
+          else []
+        );
+    in {
+      name = host.name or name;
 
-          value = lib.nixosSystem {
-            specialArgs = {
-              inherit system;
-              inherit
-                inputs
-                self
-                hostConfig
-                mylib
-                lib
-                homeModules
-                ;
-            };
+      value = lib.nixosSystem {
+        specialArgs = {
+          inherit system;
+          inherit
+            inputs
+            self
+            hostConfig
+            mylib
+            lib
+            homeModules
+            ;
+        };
 
-            modules = with inputs;
-              [
-                home-manager.nixosModules.home-manager
-                disko.nixosModules.disko
-                sops-nix.nixosModules.sops
-                {
-                  home-manager.sharedModules = homeModules;
-                }
-              ]
-              ++ hostModules ++ extraModules;
-          };
-        })
-      getHosts)
-  );
-
-  nixOnDroidConfigs = builtins.listToAttrs (
-    builtins.filter (x: x != null) (map (name: let
-        host = hostConfigs.${name};
-        isNixOnDroid = (host.type or "") == "nix-on-droid";
-      in
-        if !isNixOnDroid
-        then null
-        else let
-          hostConfig = mylib.mergeConfig host;
-          homeModules = host.modules.home or [];
-          nixOnDroidModules = host.modules.nix-on-droid or [];
-          system = hostConfig.platform;
-        in {
-          name = host.name or name;
-
-          value = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-            pkgs = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-            };
-
-            modules =
-              nixOnDroidModules
-              ++ [
-                {
-                  home-manager = {
-                    config = lib.mkMerge homeModules;
-                    backupFileExtension = "hm-bak";
-                    useGlobalPkgs = true;
-                  };
-                }
-              ];
-
-            extraSpecialArgs = {
-              inherit
-                inputs
-                self
-                hostConfig
-                mylib
-                lib
-                ;
-            };
-          };
-        })
-      getHosts)
-  );
+        modules = with inputs;
+          [
+            home-manager.nixosModules.home-manager
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+            {
+              home-manager.sharedModules = homeModules;
+            }
+          ]
+          ++ hostModules ++ extraModules;
+      };
+    })
+    getHosts);
 
   forAllSystems = func: let
     allSystemNames = builtins.attrValues (builtins.mapAttrs (_: host: host.platform) hostConfigs);
@@ -136,7 +82,6 @@
     nixpkgs.lib.genAttrs allSystemNames func;
 in {
   nixosConfigurations = nixosConfigs;
-  nixOnDroidConfigurations = nixOnDroidConfigs;
 
   devShells = forAllSystems (
     system: let
