@@ -15,13 +15,13 @@
     "ghostty"
     "niri"
     "spotify"
-    ({pkgs, ...}: {
+    ({pkgs, inputs, ...}: {
       home.packages = with pkgs; [
         pipewire.jack
         openssl
         imagemagick
         notify-desktop
-        guitarix
+        inputs.stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.guitarix
         postgresql
         dfu-util
         ayugram-desktop
@@ -52,7 +52,6 @@
         dart-sass
         gdal
         mpd
-        ncmpcpp
         typst
         mpc
         blender

@@ -111,9 +111,9 @@ Both approaches always install dependencies (plugins, LSPs, etc.).
 - **home-manager** - User environment management
 - **disko** - Disk partitioning
 - **sops-nix** - Secrets management
-- **hyprland** + **hyprland-plugins** - Wayland compositor
 - **anyrun** - Application launcher
 - **neovim-nightly-overlay** - Neovim nightly builds
+- **hyprland** + **hyprland-plugins** - (Commented out, using niri instead)
 
 ## Important Conventions
 
