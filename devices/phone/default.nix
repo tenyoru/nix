@@ -10,6 +10,11 @@ in {
   platform = "aarch64-linux";
   type = "nix-on-droid";
 
+  dotfiles = {
+    enable = false;
+    bin = false;
+  };
+
   modules = {
     home = homeModules.imports;
     nix-on-droid = [./nix-on-droid.nix];
