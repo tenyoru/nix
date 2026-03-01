@@ -37,11 +37,11 @@
 
     ayugram-desktop.url = "github:/ayugram-port/ayugram-desktop/release?submodules=1";
 
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
+    # hyprland.url = "github:hyprwm/Hyprland";
+    # hyprland-plugins = {
+    #   url = "github:hyprwm/hyprland-plugins";
+    #   inputs.hyprland.follows = "hyprland";
+    # };
 
     anyrun = {
       url = "github:anyrun-org/anyrun";
