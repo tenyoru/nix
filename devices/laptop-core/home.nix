@@ -6,8 +6,11 @@
     "obs"
     "anyrun"
     "git"
+    "obsidian"
     "zathura"
     "qutebrowser"
+    # "firefox"
+    "zen-browser"
     "tmux"
     "fish"
     "neovim"
@@ -15,9 +18,11 @@
     "ghostty"
     "niri"
     "spotify"
+    "prismlauncher"
     ({pkgs, inputs, ...}: {
       home.packages = with pkgs; [
         pipewire.jack
+        opencode
         openssl
         imagemagick
         notify-desktop
@@ -64,7 +69,6 @@
         go
         fluffychat
         cloudflared
-        obsidian
         proton-pass
       ];
     })

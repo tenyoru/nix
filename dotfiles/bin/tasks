@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+
+TASKS_DIR="${OBSIDIAN_TASKS:-$HOME/notes/99 - System/Tasks}"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+function create_task() {
+    local task_name="$*"
+
+    if [ -z "$task_name" ]; then
+        read -p "Task name: " task_name
+    fi
+
+    read -p "Tags (comma separated): " tags
+    read -p "Due date (YYYY-MM-DD, optional): " due
+    read -p "Priority (high/medium/low): " priority
+
+    local filename="$(echo "$task_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md"
+    local filepath="$TASKS_DIR/$filename"
+
+    cat > "$filepath" << EOF
+# $task_name
+
+---
+tags: [$tags]
+due: $due
+priority: $priority
+created: $(date +%Y-%m-%d)
+status: todo
+---
+
+## Description
+
+
+## Notes
+
+EOF
+
+    echo -e "${GREEN}✓ Created task: $filepath${NC}"
+}
+
+function list_tasks() {
+    echo -e "${BLUE}=== Tasks ===${NC}"
+    local i=1
+
+    for task in "$TASKS_DIR"/*.md; do
+        if [ -f "$task" ]; then
+            local basename=$(basename "$task" .md)
+            local status=$(grep "^status:" "$task" | cut -d' ' -f2)
+            local priority=$(grep "^priority:" "$task" | cut -d' ' -f2)
+
+            if [ "$status" = "done" ]; then
+                echo -e "${GREEN}[$i]${NC} ✓ $basename (done)"
+            else
+                case "$priority" in
+                    high)
+                        echo -e "${RED}[$i]${NC} ○ $basename (${RED}high${NC})"
+                        ;;
+                    medium)
+                        echo -e "${YELLOW}[$i]${NC} ○ $basename (${YELLOW}medium${NC})"
+                        ;;
+                    *)
+                        echo -e "[$i] ○ $basename"
+                        ;;
+                esac
+            fi
+            ((i++))
+        fi
+    done
+}
+
+function get_task_by_number() {
+    local num=$1
+    local i=1
+
+    for task in "$TASKS_DIR"/*.md; do
+        if [ -f "$task" ] && [ $i -eq $num ]; then
+            echo "$task"
+            return
+        fi
+        ((i++))
+    done
+}
+
+function show_task() {
+    local task_num=$1
+    local task=$(get_task_by_number $task_num)
+
+    if [ -z "$task" ]; then
+        echo -e "${RED}Task #$task_num not found${NC}"
+        return 1
+    fi
+
+    echo -e "${BLUE}=== Task Details ===${NC}"
+    cat "$task"
+}
+
+function done_task() {
+    local task_num=$1
+    local task=$(get_task_by_number $task_num)
+
+    if [ -z "$task" ]; then
+        echo -e "${RED}Task #$task_num not found${NC}"
+        return 1
+    fi
+
+    sed -i 's/^status: todo/status: done/' "$task"
+    sed -i '/^status: done/a completed: '"$(date +%Y-%m-%d)" "$task"
+
+    echo -e "${GREEN}✓ Task marked as done: $(basename "$task" .md)${NC}"
+}
+
+function run_task() {
+    list_tasks
+    echo ""
+    read -p "Select task number to track: " task_num
+
+    local task=$(get_task_by_number $task_num)
+
+    if [ -z "$task" ]; then
+        echo -e "${RED}Task #$task_num not found${NC}"
+        return 1
+    fi
+
+    local task_name=$(basename "$task" .md)
+    echo -e "${GREEN}Starting cclock for: $task_name${NC}"
+
+    # Run cclock with task name
+    cclock "$task_name"
+}
+
+# Main command dispatcher
+case "$1" in
+    create)
+        shift
+        create_task "$@"
+        ;;
+    list)
+        list_tasks
+        ;;
+    show)
+        show_task "$2"
+        ;;
+    done)
+        done_task "$2"
+        ;;
+    run)
+        run_task
+        ;;
+    *)
+        echo "Usage: tasks {create|list|show|done|run}"
+        echo ""
+        echo "Commands:"
+        echo "  create [name]  - Create a new task"
+        echo "  list           - List all tasks"
+        echo "  show <num>     - Show task details"
+        echo "  done <num>     - Mark task as done"
+        echo "  run            - Choose a task and start cclock"
+        exit 1
+        ;;
+esac

@@ -30,6 +30,9 @@ in {
     # Go
     gopls
 
+    # TypeScript/JavaScript
+    typescript-language-server
+
     # Rust (rust-analyzer provided by rustup)
 
     # C/C++
