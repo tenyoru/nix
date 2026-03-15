@@ -1,6 +1,7 @@
 {mylib, ...}: {
   imports = mylib.getHomeModules [
     "claude"
+    "opencode"
     "cli-suggar"
     "dev"
     "obs"
@@ -38,6 +39,8 @@
         gnome-keyring
         xwayland-satellite
         python3
+        wtype
+        ffmpeg
         tor-browser
         devenv
         gnumake
