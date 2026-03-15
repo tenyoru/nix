@@ -1,16 +1,13 @@
 {mylib, ...}: {
   imports = mylib.getHomeModules [
-    "claude"
     "opencode"
     "cli-suggar"
     "dev"
-    "obs"
+    "python"
     "anyrun"
     "git"
     "obsidian"
     "zathura"
-    "qutebrowser"
-    # "firefox"
     "zen-browser"
     "tmux"
     "fish"
@@ -38,7 +35,6 @@
         platformio-core
         gnome-keyring
         xwayland-satellite
-        python3
         wtype
         ffmpeg
         tor-browser
@@ -55,7 +51,6 @@
         jmtpfs
         exiftool
         veracrypt
-        uv
         hugo
         dart-sass
         gdal
