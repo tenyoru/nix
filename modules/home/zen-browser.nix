@@ -345,6 +345,12 @@
       };
 
       ExtensionSettings = {
+        # Obsidian Web Clipper
+        "clipper@obsidian.md" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/web-clipper-obsidian/latest.xpi";
+          installation_mode = "force_installed";
+        };
+
         # Tridactyl
         "tridactyl.vim@cmcaine.co.uk" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/latest.xpi";

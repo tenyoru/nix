@@ -620,7 +620,7 @@ binds {
 
     // Move the focused window between the floating and the tiling layout.
     Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+Ctrl+V { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
@@ -669,7 +669,12 @@ binds {
     }
 
     Mod+Shift+B {
-      spawn "bash" "-c" "$NIRI_RUN_SCRIPT org.qutebrowser.qutebrowser qutebrowser";
+      spawn "bash" "-c" "$NIRI_RUN_SCRIPT zen-twilight zen-twilight";
+    }
+
+    // Voice-to-clipboard toggle (press once to start, again to stop and copy)
+    Mod+Shift+V {
+      spawn "bash" "-c" "/home/Tenyoru/.nixos/dotfiles/bin/voice-clip";
     }
 
     Mod+Shift+O {

@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PYTHON_BIN="${VOICE_CLIP_PYTHON:-$HOME/.venvs/faster-whisper/bin/python}"
+MODEL="${VOICE_CLIP_MODEL:-base}"
+LANG="${VOICE_CLIP_LANG:-auto}"
+TASK="${VOICE_CLIP_TASK:-transcribe}"
+INPUT_DEVICE="${VOICE_CLIP_INPUT:-default}"
+STATE_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+PID_FILE="$STATE_DIR/voice-clip.pid"
+WAV_FILE="$STATE_DIR/voice-clip.wav"
+
+notify_msg() {
+  local title="$1"
+  local body="$2"
+  if command -v notify-desktop >/dev/null 2>&1; then
+    notify-desktop "$title" "$body" >/dev/null 2>&1 || true
+  elif command -v notify-send >/dev/null 2>&1; then
+    notify-send "$title" "$body"
+  fi
+}
+
+if ! command -v ffmpeg >/dev/null 2>&1; then
+  printf 'ffmpeg is required\n' >&2
+  exit 1
+fi
+
+if ! [ -x "$PYTHON_BIN" ]; then
+  printf 'Python not found at %s\n' "$PYTHON_BIN" >&2
+  printf 'Set VOICE_CLIP_PYTHON to your interpreter path.\n' >&2
+  exit 1
+fi
+
+copy_and_print() {
+  local text="$1"
+
+  if command -v wl-copy >/dev/null 2>&1; then
+    printf '%s' "$text" | wl-copy
+  elif command -v xclip >/dev/null 2>&1; then
+    printf '%s' "$text" | xclip -selection clipboard
+  else
+    printf 'No clipboard tool found (install wl-copy or xclip).\n' >&2
+    exit 1
+  fi
+
+  printf 'Copied to clipboard: %s\n' "$text"
+}
+
+transcribe() {
+  "$PYTHON_BIN" - "$WAV_FILE" "$MODEL" "$LANG" "$TASK" <<'PY'
+import sys
+from faster_whisper import WhisperModel
+
+wav_file, model_name, lang, task = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+model = WhisperModel(model_name, device="cpu", compute_type="int8")
+segments, _ = model.transcribe(
+    wav_file,
+    language=None if lang == "auto" else lang,
+    task=task,
+    vad_filter=True,
+)
+text = " ".join(s.text.strip() for s in segments).replace("\n", " ").strip()
+print(text)
+PY
+}
+
+start_recording() {
+  ffmpeg -loglevel error -f pulse -i "$INPUT_DEVICE" -ac 1 -ar 16000 -y "$WAV_FILE" >/dev/null 2>&1 &
+  echo "$!" > "$PID_FILE"
+  printf 'Recording... run voice-clip again to stop.\n'
+  notify_msg "voice-clip" "Recording started"
+}
+
+stop_recording() {
+  local pid
+  pid="$(cat "$PID_FILE")"
+  kill -INT "$pid" 2>/dev/null || true
+  rm -f "$PID_FILE"
+  sleep 0.3
+  notify_msg "voice-clip" "Transcribing..."
+
+  local text
+  text="$(transcribe)"
+
+  if [ -z "$text" ]; then
+    printf 'No speech detected.\n' >&2
+    notify_msg "voice-clip" "No speech detected"
+    exit 1
+  fi
+
+  copy_and_print "$text"
+  notify_msg "voice-clip" "Done: copied to clipboard"
+}
+
+if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+  stop_recording
+  exit 0
+fi
+
+rm -f "$PID_FILE"
+start_recording

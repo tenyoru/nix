@@ -1,5 +1,9 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "enabled_providers": [
+    "anthropic",
+    "openai"
+  ],
   "mcp": {
     "obsidian": {
       "type": "local",
@@ -17,6 +21,23 @@
         "-y",
         "@upstash/context7-mcp"
       ]
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "timeout": 120000
+    },
+    "nixos": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-nixos"
+      ],
+      "timeout": 120000
     }
   }
 }
