@@ -4,6 +4,9 @@
     "anthropic",
     "openai"
   ],
+  "instructions": [
+    "/home/Tenyoru/notes/AGENTS.md"
+  ],
   "mcp": {
     "obsidian": {
       "type": "local",
@@ -38,6 +41,14 @@
         "mcp-nixos"
       ],
       "timeout": 120000
+    },
+    "yt-dlp": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@kevinwatt/yt-dlp-mcp@latest"
+      ]
     }
   }
 }

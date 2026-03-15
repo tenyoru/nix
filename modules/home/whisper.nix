@@ -35,5 +35,10 @@ in {
     VOICE_CLIP_PYTHON = "${whisperPython}/bin/python3";
     VOICE_CLIP_MODULE_ROOT = voiceClipModuleRoot;
     VOICE_CLIP_CONFIG_PATH = voiceClipConfigPath;
+    VOICE_CLIP_MODEL = "tiny";
+    VOICE_CLIP_DEVICE = "cpu";
+    VOICE_CLIP_COMPUTE_TYPE = "int8";
+    VOICE_CLIP_VAD_FILTER = "false";
+    VOICE_CLIP_BEAM_SIZE = "1";
   };
 }

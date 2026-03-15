@@ -5,7 +5,6 @@ import shutil
 import signal
 import subprocess
 import sys
-import time
 from pathlib import Path
 
 from faster_whisper import WhisperModel
@@ -16,10 +15,21 @@ def env(name: str, default: str) -> str:
     return value if value else default
 
 
-MODEL = env("VOICE_CLIP_MODEL", "base")
+def env_int(name: str, default: int) -> int:
+    try:
+        return int(env(name, str(default)))
+    except ValueError:
+        return default
+
+
+MODEL = env("VOICE_CLIP_MODEL", "tiny")
 LANG = env("VOICE_CLIP_LANG", "auto")
 TASK = env("VOICE_CLIP_TASK", "transcribe")
 INPUT_DEVICE = env("VOICE_CLIP_INPUT", "default")
+DEVICE = env("VOICE_CLIP_DEVICE", "cpu")
+COMPUTE_TYPE = env("VOICE_CLIP_COMPUTE_TYPE", "int8")
+VAD_FILTER = env("VOICE_CLIP_VAD_FILTER", "false").lower() in {"1", "true", "yes", "on"}
+BEAM_SIZE = env_int("VOICE_CLIP_BEAM_SIZE", 1)
 STATE_DIR = Path(env("XDG_RUNTIME_DIR", "/tmp"))
 PID_FILE = STATE_DIR / "voice-clip.pid"
 WAV_FILE = STATE_DIR / "voice-clip.wav"
@@ -80,12 +90,13 @@ def copy_and_print(text: str) -> None:
 
 
 def transcribe() -> str:
-    model = WhisperModel(MODEL, device="cpu", compute_type="int8")
+    model = WhisperModel(MODEL, device=DEVICE, compute_type=COMPUTE_TYPE)
     segments, _ = model.transcribe(
         str(WAV_FILE),
         language=None if LANG == "auto" else LANG,
         task=TASK,
-        vad_filter=True,
+        vad_filter=VAD_FILTER,
+        beam_size=BEAM_SIZE,
     )
     return (
         " ".join(segment.text.strip() for segment in segments)
@@ -136,12 +147,6 @@ def stop_recording() -> None:
 
     PID_FILE.unlink(missing_ok=True)
 
-    for _ in range(10):
-        if not process_exists(pid):
-            break
-        time.sleep(0.1)
-
-    time.sleep(0.3)
     notify_msg("voice-clip", "Transcribing...")
     text = transcribe()
 

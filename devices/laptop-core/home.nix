@@ -17,7 +17,6 @@
     "ghostty"
     "niri"
     "spotify"
-    "prismlauncher"
     ({pkgs, inputs, ...}: {
       home.packages = with pkgs; [
         pipewire.jack
@@ -38,6 +37,7 @@
         xwayland-satellite
         wtype
         ffmpeg
+        yt-dlp
         tor-browser
         devenv
         gnumake
@@ -54,7 +54,6 @@
         veracrypt
         hugo
         dart-sass
-        gdal
         mpd
         typst
         mpc
