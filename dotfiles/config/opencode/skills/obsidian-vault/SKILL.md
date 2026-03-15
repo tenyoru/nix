@@ -19,6 +19,19 @@ description: Work safely in the Obsidian vault and always read AGENTS.md first
 5. Prefer incremental edits over full rewrites.
 6. Preserve language used by the user unless asked to translate.
 
+## Media Notes Rule (Video/Lecture/Podcast)
+- When creating or updating notes from a video, lecture, or podcast, always extract and emphasize entities.
+- Always add a structured section for entities, for example:
+  - `## Mentioned People and Works`
+  - `### People / Thinkers`
+  - `### Books / Texts / Works`
+  - `### Concepts / Terms`
+- Convert entities into links whenever possible:
+  - Prefer Obsidian wikilinks (`[[...]]`) if the note exists in the vault.
+  - If no local note exists, add an external reference link.
+- Keep names normalized (consistent spelling/transliteration) and avoid duplicate entries.
+- For quotes, keep wording close to source and add a short context line.
+
 ## Safety checks
 - Do not move or rename files unless requested.
 - Do not delete sections unless requested.
