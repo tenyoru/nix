@@ -25,5 +25,16 @@ local.nix
 # Temporary files
 *.tmp
 
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
 # Misc
 .cache/
