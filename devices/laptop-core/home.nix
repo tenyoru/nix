@@ -4,6 +4,7 @@
     "cli-suggar"
     "dev"
     "python"
+    "whisper"
     "anyrun"
     "git"
     "obsidian"
@@ -58,7 +59,6 @@
         typst
         mpc
         blender
-        freecad
         bambu-studio
         ssh-agents
         rustup

@@ -48,7 +48,7 @@
           description = "Configs to symlink (name = true to enable)";
         };
 
-        bin = lib.mkEnableOption "add dotfiles/bin to PATH";
+        bin = lib.mkEnableOption "add dotfiles/scripts/bin to PATH";
       };
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
@@ -60,7 +60,7 @@
         }
 
         (lib.mkIf cfg.bin {
-          home.sessionPath = ["${cfg.path}/bin"];
+          home.sessionPath = ["${cfg.path}/scripts/bin"];
         })
       ]);
     };

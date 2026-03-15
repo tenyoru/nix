@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{config, mylib, pkgs, ...}: {
   programs.fish = {
     enable = true;
 
@@ -45,6 +45,15 @@
     '';
 
     shellInit = ''
+      if test -f /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.fish
+        set -e __HM_SESS_VARS_SOURCED
+        source /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.fish
+      end
+
+      if not set -q NIXOS_CONFIG_PATH
+        set -gx NIXOS_CONFIG_PATH ${mylib.nixosConfigPath}
+      end
+
       set -gx EDITOR nvim
       set -gx VISUAL nvim
       set -gx NIX_BUILD_SHELL ${pkgs.fish}/bin/fish

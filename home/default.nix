@@ -39,6 +39,7 @@ in {
             dotfiles = {
               enable = configsList != [] || (dotfilesCfg.bin or false);
               bin = dotfilesCfg.bin or false;
+              path = mylib.dotfilesDir;
               configs = configsAttrs;
             };
           }
@@ -48,6 +49,12 @@ in {
         inherit username;
         inherit stateVersion;
         inherit homeDirectory;
+
+        sessionVariables = {
+          NIXOS_CONFIG_PATH = mylib.nixosConfigPath;
+          NIXOS_SCRIPTS_BIN_PATH = mylib.scriptsBinDir;
+          NIXOS_SCRIPTS_PYTHON_PATH = mylib.scriptsPythonDir;
+        };
       };
     };
   };

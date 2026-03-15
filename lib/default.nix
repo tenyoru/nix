@@ -10,6 +10,10 @@
 
   # Dotfiles directory
   dotfilesDir = "${flakeDir}/dotfiles";
+  nixosConfigPath = flakeDir;
+  scriptsDir = "${dotfilesDir}/scripts";
+  scriptsBinDir = "${scriptsDir}/bin";
+  scriptsPythonDir = "${scriptsDir}/python";
 
   # Get full path to dotfile
   # Usage: config.lib.file.mkOutOfStoreSymlink (mylib.dotfile ".config/nvim")
@@ -143,7 +147,11 @@ in {
   hostModuleDir = "${self}/modules/host";
   dotfile = dotfile;
   flakeDir = flakeDir;
+  nixosConfigPath = nixosConfigPath;
   dotfilesDir = dotfilesDir;
+  scriptsDir = scriptsDir;
+  scriptsBinDir = scriptsBinDir;
+  scriptsPythonDir = scriptsPythonDir;
   defaultsDir = defaultsDir;
   mkDotfile = mkDotfile;
   useDotfiles = useDotfiles;

@@ -245,6 +245,7 @@
         "extensions.enabledScopes" = 5;
         "extensions.update.enabled" = true;
         "extensions.update.autoUpdateDefault" = true;
+        "extensions.openPopupWithoutUserGesture.enabled" = true;
 
         "network.http.referer.XOriginTrimmingPolicy" = 2;
 

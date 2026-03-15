@@ -674,7 +674,7 @@ binds {
 
     // Voice-to-clipboard toggle (press once to start, again to stop and copy)
     Mod+Shift+V {
-      spawn "bash" "-c" "/home/Tenyoru/.nixos/dotfiles/bin/voice-clip";
+      spawn "bash" "-c" "voice-clip";
     }
 
     Mod+Shift+O {
