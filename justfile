@@ -4,17 +4,39 @@ HOST := "core"
 default:
   just --list
 
+[private]
+_notify TITLE MESSAGE:
+    @if command -v notify-desktop >/dev/null 2>&1; then \
+        notify-desktop "{{TITLE}}" "{{MESSAGE}}"; \
+    elif command -v notify-send >/dev/null 2>&1; then \
+        notify-send "{{TITLE}}" "{{MESSAGE}}"; \
+    fi
+
 # Rebuild and switch to new configuration
 switch:
+    @just _notify "NixOS rebuild" "Switch started"
     @printf '\033[1;33mRebuilding NixOS...\033[0m\n'
-    nixos-rebuild switch --flake .#{{HOST}} --sudo
-    @printf '\033[0;32m✓ System rebuilt successfully\033[0m\n'
+    @if nixos-rebuild switch --flake .#{{HOST}} --sudo; then \
+        printf '\033[0;32m✓ System rebuilt successfully\033[0m\n'; \
+        just _notify "NixOS rebuild" "Switch finished successfully"; \
+    else \
+        printf '\033[0;31m✗ System rebuild failed\033[0m\n'; \
+        just _notify "NixOS rebuild" "Switch failed"; \
+        exit 1; \
+    fi
 
 # Build without switching (dry-run)
 build:
+    @just _notify "NixOS build" "Build started"
     @printf '\033[1;33mBuilding NixOS (dry-run)...\033[0m\n'
-    nixos-rebuild build --flake .#{{HOST}} --sudo
-    @printf '\033[0;32m✓ Build successful\033[0m\n'
+    @if nixos-rebuild build --flake .#{{HOST}} --sudo; then \
+        printf '\033[0;32m✓ Build successful\033[0m\n'; \
+        just _notify "NixOS build" "Build finished successfully"; \
+    else \
+        printf '\033[0;31m✗ Build failed\033[0m\n'; \
+        just _notify "NixOS build" "Build failed"; \
+        exit 1; \
+    fi
 
 # Update all flake inputs
 update:

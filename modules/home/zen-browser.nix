@@ -364,6 +364,12 @@
           installation_mode = "force_installed";
         };
 
+        # Enhancer for YouTube
+        "enhancerforyoutube@maximerf.addons.mozilla.org" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/enhancer-for-youtube/latest.xpi";
+          installation_mode = "force_installed";
+        };
+
         # uBlock Origin
         "uBlock0@raymondhill.net" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";

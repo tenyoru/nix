@@ -1,6 +1,7 @@
 {mylib, ...}: {
   imports = mylib.getHomeModules [
     "opencode"
+    "claude"
     "cli-suggar"
     "dev"
     "python"
@@ -30,7 +31,7 @@
         ayugram-desktop
         chezmoi
         zig
-        iamb
+        inputs.stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.iamb
         discord
         platformio-core
         gnome-keyring

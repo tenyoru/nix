@@ -13,7 +13,6 @@
     "hardware"
     "networking"
     "programs"
-    "steam"
     "services"
     "syncthing"
     ({pkgs, ...}: {

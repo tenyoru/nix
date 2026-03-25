@@ -10,9 +10,9 @@ in {
   documentation.nixos.enable = false;
   nixpkgs.config = {
     allowUnfree = true;
-    # permittedInsecurePackages = [
-    #   "olm-3.2.16"
-    # ];
+    permittedInsecurePackages = [
+      "electron-38.8.4"
+    ];
     element-web.conf = {
       show_labs_settings = true;
       default_theme = "dark";
