@@ -28,6 +28,7 @@
     shellAliases = {
       vim = "nvim";
       v = "nvim";
+      flake = "nix develop -C $SHELL";
       ll = "ls -la";
       la = "ls -A";
       ".." = "cd ..";
