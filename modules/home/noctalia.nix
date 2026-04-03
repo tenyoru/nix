@@ -65,6 +65,23 @@
 
       colorSchemes.predefinedScheme = "Monochrome";
 
+      wallpaper = {
+        enabled = true;
+        overviewEnabled = true;
+        directory = "${config.home.homeDirectory}/.nixos/dotfiles/wallpapers/noctalia";
+        fillMode = "crop";
+        setWallpaperOnAllMonitors = true;
+        linkLightAndDarkWallpapers = true;
+        automationEnabled = true;
+        wallpaperChangeMode = "random";
+        randomIntervalSec = 900;
+        transitionDuration = 1200;
+        transitionType = [
+          "fade"
+          "wipe"
+        ];
+      };
+
       general = {
         avatarImage = "${config.home.homeDirectory}/.face";
         radiusRatio = 0.2;
