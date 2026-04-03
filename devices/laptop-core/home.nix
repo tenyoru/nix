@@ -17,6 +17,7 @@
     "mako"
     "ghostty"
     "niri"
+    "noctalia"
     "spotify"
     ({pkgs, inputs, ...}: {
       home.packages = with pkgs; [

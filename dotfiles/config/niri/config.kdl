@@ -12,6 +12,7 @@ spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets,pkcs11,s
 spawn-at-startup "foot --server"
 spawn-at-startup "mako"
 spawn-at-startup "xwayland-satellite"
+spawn-at-startup "noctalia-shell"
 
 environment {
     WLR_NO_HARDWARE_CURSORS "1"
@@ -131,6 +132,13 @@ output "DP-2" {
   mode "3840x2160@120"
   scale 1
   position  x=0 y=0
+}
+
+
+gestures {
+    hot-corners {
+        off
+    }
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -413,6 +421,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T { spawn "footclient"; }
     Mod+P { spawn "anyrun"; }
+    Mod+B { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "bar" "toggle"; }
     Super+Alt+L { spawn "hyprlock"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
