@@ -7,9 +7,9 @@ default:
 [private]
 _notify TITLE MESSAGE:
     @if command -v notify-desktop >/dev/null 2>&1; then \
-        notify-desktop "{{TITLE}}" "{{MESSAGE}}"; \
+        notify-desktop "{{TITLE}}" "{{MESSAGE}}" || true; \
     elif command -v notify-send >/dev/null 2>&1; then \
-        notify-send "{{TITLE}}" "{{MESSAGE}}"; \
+        notify-send "{{TITLE}}" "{{MESSAGE}}" || true; \
     fi
 
 # Rebuild and switch to new configuration
