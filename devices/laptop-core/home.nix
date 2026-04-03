@@ -6,7 +6,6 @@
     "dev"
     "python"
     "whisper"
-    "anyrun"
     "git"
     "obsidian"
     "zathura"
