@@ -126,19 +126,30 @@ output "eDP-1" {
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
     position x=0 y=0
+    scale 1
 }
 
 output "DP-2" {
   mode "3840x2160@120"
-  scale 1
-  position  x=0 y=0
+  scale 1.5
+  position  x=1920 y=0
 }
 
 
 gestures {
     hot-corners {
-        off
     }
+}
+
+debug {
+    // Allows notification actions and window activation from Noctalia.
+    honor-xdg-activation-with-invalid-serial
+}
+
+// Set the overview wallpaper on the backdrop.
+layer-rule {
+    match namespace="^noctalia-overview.*"
+    place-within-backdrop true
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -146,7 +157,7 @@ gestures {
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 0
+    gaps 4
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -277,7 +288,7 @@ layout {
         color "#0007"
     }
     tab-indicator {
-        // off
+        off
         hide-when-single-tab
         place-within-column
         gap 5
@@ -300,10 +311,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // left 64
-        // right 64
-        // top 64
-        // bottom 64
+        left 4
+        right 4
+        top 4
+        bottom 4
     }
 }
 
@@ -379,22 +390,14 @@ window-rule {
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
 window-rule {
-    geometry-corner-radius 0
+    // Rounded corners for a modern look.
+    geometry-corner-radius 20
+
+    // Clips window contents to the rounded corner boundaries.
     clip-to-geometry true
     draw-border-with-background false
 }
 
-// Disable CSD for Obsidian
-window-rule {
-    match app-id=r#"obsidian"#
-    draw-border-with-background true
-}
-
-// Disable CSD for Ayugram
-window-rule {
-    match app-id=r#"^com\.ayugram\.desktop$"#
-    draw-border-with-background true
-}
 
 
 overview {

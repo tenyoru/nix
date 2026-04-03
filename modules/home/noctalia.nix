@@ -9,8 +9,7 @@
     enable = true;
     settings = {
       bar = {
-        density = "compact";
-        position = "left";
+        position = "top";
         displayMode = "auto_hide";
         autoHideDelay = 300;
         autoShowDelay = 0;
@@ -19,14 +18,19 @@
         widgets = {
           left = [
             {
-              id = "ControlCenter";
-              useDistroLogo = true;
+              id = "Launcher";
             }
             {
-              id = "Network";
+              id = "Clock";
             }
             {
-              id = "Bluetooth";
+              id = "SystemMonitor";
+            }
+            {
+              id = "ActiveWindow";
+            }
+            {
+              id = "MediaMini";
             }
           ];
           center = [
@@ -38,16 +42,22 @@
           ];
           right = [
             {
-              alwaysShowPercentage = false;
-              id = "Battery";
-              warningThreshold = 30;
+              id = "Tray";
             }
             {
-              formatHorizontal = "HH:mm";
-              formatVertical = "HH mm";
-              id = "Clock";
-              useMonospacedFont = true;
-              usePrimaryColor = true;
+              id = "NotificationHistory";
+            }
+            {
+              id = "Battery";
+            }
+            {
+              id = "Volume";
+            }
+            {
+              id = "Brightness";
+            }
+            {
+              id = "ControlCenter";
             }
           ];
         };
@@ -58,11 +68,31 @@
       general = {
         avatarImage = "${config.home.homeDirectory}/.face";
         radiusRatio = 0.2;
+        compactLockScreen = false;
+        lockOnSuspend = true;
+        lockScreenAnimations = true;
+        showSessionButtonsOnLockScreen = true;
+        enableLockScreenMediaControls = true;
+        enableLockScreenCountdown = true;
+        lockScreenCountdownDuration = 10000;
       };
 
       location = {
         monthBeforeDay = true;
-        name = "Marseille, France";
+        name = "Liege, Belgium";
+      };
+
+      templates = {
+        activeTemplates = [
+          {
+            id = "spicetify";
+            enabled = true;
+          }
+          {
+            id = "zenBrowser";
+            enabled = true;
+          }
+        ];
       };
     };
   };

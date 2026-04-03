@@ -4,7 +4,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  noctaliaEnabled = lib.attrByPath ["programs" "noctalia-shell" "enable"] false config;
+in {
   imports = [inputs.zen-browser.homeModules.twilight];
 
   # Install Tridactyl native messenger
@@ -305,6 +307,7 @@
         "zen.onboarding.seen" = true;
         "zen.view.compact.hide-toolbar" = false;
         "zen.tabs.show-close-button" = false;
+        "layout.css.prefers-color-scheme.content-override" = 0;
 
         # Hide tab close buttons
         "browser.tabs.closeButtons" = 2;
@@ -390,6 +393,38 @@
       };
     };
   };
+
+  home.activation.zenNoctaliaCss = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    CSS_CHROME="$HOME/.cache/noctalia/zen-browser/zen-userChrome.css"
+    CSS_CONTENT="$HOME/.cache/noctalia/zen-browser/zen-userContent.css"
+    LINE_CHROME="@import \"$CSS_CHROME\";"
+    LINE_CONTENT="@import \"$CSS_CONTENT\";"
+
+    for base in "$HOME/.config/zen" "$HOME/.zen"; do
+      [ -d "$base" ] || continue
+      for profile in "$base"/*.*; do
+        [ -d "$profile" ] || continue
+        dir="$profile/chrome"
+        $DRY_RUN_CMD mkdir -p "$dir"
+
+        user_chrome="$dir/userChrome.css"
+        user_content="$dir/userContent.css"
+        $DRY_RUN_CMD touch "$user_chrome" "$user_content"
+
+        $DRY_RUN_CMD ${pkgs.gnused}/bin/sed -i '/zen-browser\/zen-userChrome\.css/d' "$user_chrome"
+        $DRY_RUN_CMD ${pkgs.gnused}/bin/sed -i '/zen-browser\/zen-userContent\.css/d' "$user_content"
+
+        if [ "${if noctaliaEnabled then "1" else "0"}" = "1" ]; then
+          if ! ${pkgs.gnugrep}/bin/grep -Fq "$LINE_CHROME" "$user_chrome"; then
+            $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "%s\n" "$LINE_CHROME" >> "$user_chrome"
+          fi
+          if ! ${pkgs.gnugrep}/bin/grep -Fq "$LINE_CONTENT" "$user_content"; then
+            $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "%s\n" "$LINE_CONTENT" >> "$user_content"
+          fi
+        fi
+      done
+    done
+  '';
 
   # Tridactyl configuration
   # move to config dir and make a link

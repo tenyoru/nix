@@ -1,14 +1,15 @@
 {
+  config,
   pkgs,
   inputs,
-  lib,
   ...
-}: {
+}: let
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  noctaliaEnabled = config.programs.noctalia-shell.enable or false;
+in {
   imports = [inputs.spicetify-nix.homeManagerModules.default];
 
-  programs.spicetify = let
-    spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  in {
+  programs.spicetify = {
     enable = true;
     enabledExtensions = with spicePkgs.extensions; [
       adblock
@@ -18,6 +19,7 @@
       historyShortcut
     ];
 
-    theme = spicePkgs.themes.text;
+    theme = if noctaliaEnabled then spicePkgs.themes.comfy else spicePkgs.themes.text;
+    colorScheme = if noctaliaEnabled then "Comfy" else "Ocean";
   };
 }

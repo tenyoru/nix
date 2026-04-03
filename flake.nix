@@ -7,12 +7,14 @@
     warn-dirty = false;
     # Extra caches can slow builds if DNS/network is unstable.
     extra-substituters = [
-      # "https://nix-gaming.cachix.org"
-      # "https://nixpkgs-wayland.cachix.org"
+      "https://noctalia.cachix.org"
+      "https://nix-gaming.cachix.org"
+      "https://nixpkgs-wayland.cachix.org"
     ];
     extra-trusted-public-keys = [
-      # "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-      # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     ];
   };
 
@@ -77,5 +79,7 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
   };
 }

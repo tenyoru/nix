@@ -9,6 +9,7 @@
 in {
   documentation.nixos.enable = false;
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [inputs.millennium.overlays.default];
 
   nix.package = pkgs.nixVersions.latest;
 
