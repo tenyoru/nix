@@ -15,7 +15,6 @@
     "programs"
     "services"
     "syncthing"
-    # "steam"
     ({pkgs, ...}: {
       environment.systemPackages = with pkgs; [
         git

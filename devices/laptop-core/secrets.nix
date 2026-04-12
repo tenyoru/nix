@@ -16,10 +16,6 @@ in {
         owner = username;
         mode = "0400";
       };
-      wireguard_amsterdam_conf = {
-        key = "wireguard_amsterdam_conf";
-        owner = username;
-      };
       wireguard_frankfurt_conf = {
         key = "wireguard_frankfurt_conf";
         owner = username;

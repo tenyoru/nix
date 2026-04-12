@@ -13,7 +13,7 @@
         # 127.0.0.1 www.youtube.com
         # 127.0.0.1 api.youtube.com
       '';
-      wireguardConfig = "/etc/nixos/files/wireguard/frankfurt.conf";
+      wireguardConfig = config.sops.secrets.wireguard_frankfurt_conf.path;
     }
     // (config._module.args.networking or {});
   wireguardSecret = config.sops.secrets.wireguard_private_key.path;
@@ -29,5 +29,11 @@ in {
       configFile = networkingConfig.wireguardConfig;
       privateKeyFile = wireguardSecret;
     };
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
   };
 }

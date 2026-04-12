@@ -17,6 +17,7 @@
     "ghostty"
     "niri"
     "noctalia"
+    "discord"
     "spotify"
     ({pkgs, inputs, ...}: {
       home.packages = with pkgs; [
@@ -32,7 +33,6 @@
         chezmoi
         zig
         inputs.stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.iamb
-        discord
         platformio-core
         gnome-keyring
         xwayland-satellite
