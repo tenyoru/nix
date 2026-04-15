@@ -76,6 +76,105 @@
 
   findPaths = base: names: map (name: findPath base name) names;
 
+  readToml = path: builtins.fromTOML (builtins.readFile path);
+
+  resolveEnabledModules = {
+    defaultModules,
+    configuredModules ? [],
+    moduleFlags ? {},
+  }: let
+    baseModules =
+      if configuredModules != []
+      then configuredModules
+      else defaultModules;
+    enabledFromBase = builtins.filter (name: moduleFlags.${name} or true) baseModules;
+    extraEnabled = builtins.filter (name: (moduleFlags.${name} or false) && !(builtins.elem name baseModules)) (builtins.attrNames moduleFlags);
+  in
+    enabledFromBase ++ extraEnabled;
+
+  getDeviceModules = {
+    deviceConfig,
+    section,
+    defaultModules,
+  }: let
+    modulesKey = "${section}Modules";
+    configuredModules = deviceConfig.${modulesKey} or [];
+    moduleFlags = deviceConfig.${section} or {};
+  in
+    resolveEnabledModules {
+      inherit defaultModules configuredModules moduleFlags;
+    };
+
+  mkHomePackagesModule = {
+    packageNames ? [],
+    stablePackageNames ? [],
+  }: {
+    pkgs,
+    inputs,
+    lib,
+    ...
+  }: let
+    toPath = name: lib.splitString "." name;
+    resolvePkg = name: lib.attrByPath (toPath name) (throw "Package '${name}' not found in pkgs") pkgs;
+    resolveStablePkg = name:
+      lib.attrByPath
+      (toPath name)
+      (throw "Package '${name}' not found in stable pkgs")
+      inputs.stable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  in {
+    home.packages =
+      (map resolvePkg packageNames)
+      ++ (map resolveStablePkg stablePackageNames);
+  };
+
+  mkDevice = {
+    path,
+    deviceConfig,
+    defaultHostModules ? [],
+    defaultHomeModules ? [],
+    defaultPackages ? [],
+    defaultStablePackages ? [],
+  }: let
+    hostModuleNames = getDeviceModules {
+      inherit deviceConfig;
+      section = "host";
+      defaultModules = defaultHostModules;
+    };
+    homeModuleNames = getDeviceModules {
+      inherit deviceConfig;
+      section = "home";
+      defaultModules = defaultHomeModules;
+    };
+    packageNames = getDeviceModules {
+      inherit deviceConfig;
+      section = "packages";
+      defaultModules = defaultPackages;
+    };
+    stablePackageNames = getDeviceModules {
+      inherit deviceConfig;
+      section = "stablePackages";
+      defaultModules = defaultStablePackages;
+    };
+  in
+    deviceConfig
+    // {
+      modules = {
+        host = importIfExists (path + "/hardware.nix") ++ getHostModules hostModuleNames;
+        home =
+          getHomeModules homeModuleNames
+          ++ [
+            (mkHomePackagesModule {
+              inherit packageNames stablePackageNames;
+            })
+          ];
+      };
+    };
+
+  importIfExists = path:
+    if builtins.pathExists path
+    then [path]
+    else [];
+
   scanPaths = path: let
     entries = builtins.readDir path;
     entryNames = builtins.attrNames entries;
@@ -136,13 +235,23 @@
       else [];
   in
     filteredFiles ++ hardwareModule;
+
+  scanNixPaths = path:
+    builtins.filter (p: builtins.match ".*\\.nix$" (toString p) != null) (scanPaths path);
 in {
   findPath = findPath;
   getHomeModules = getHomeModules;
   getHostModules = getHostModules;
   getDirModules = getDirModules;
+  getDeviceModules = getDeviceModules;
+  importIfExists = importIfExists;
   mergeConfig = mergeConfig;
+  mkDevice = mkDevice;
+  mkHomePackagesModule = mkHomePackagesModule;
+  readToml = readToml;
+  resolveEnabledModules = resolveEnabledModules;
   scanPaths = scanPaths;
+  scanNixPaths = scanNixPaths;
   homeModuleDir = "${self}/modules/home";
   hostModuleDir = "${self}/modules/host";
   dotfile = dotfile;

@@ -1,13 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  hostConfig,
-  ...
-}: let
-  username = hostConfig.username;
-in {
+{hostConfig, ...}: {
   documentation.nixos.enable = false;
+
   nixpkgs.config = {
     allowUnfree = true;
     permittedInsecurePackages = [
@@ -18,8 +11,6 @@ in {
       default_theme = "dark";
     };
   };
-
-  # environment.etc."xkb/symbols/qgmlwy".source = ../../files/layouts/carpalx.xkb;
 
   system.stateVersion = hostConfig.stateVersion;
 }

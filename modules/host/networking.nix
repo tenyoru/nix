@@ -13,7 +13,7 @@
         # 127.0.0.1 www.youtube.com
         # 127.0.0.1 api.youtube.com
       '';
-      wireguardConfig = config.sops.secrets.wireguard_frankfurt_conf.path;
+      wireguardConfig = config.sops.secrets.wireguard_belgium_conf.path;
     }
     // (config._module.args.networking or {});
   wireguardSecret = config.sops.secrets.wireguard_private_key.path;
@@ -31,9 +31,9 @@ in {
     };
   };
 
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
+  # services.avahi = {
+  #   enable = true;
+  #   nssmdns4 = true;
+  #   openFirewall = true;
+  # };
 }

@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  environment.systemPackages = [pkgs.just];
+
   programs.appimage = {
     enable = true;
     binfmt = true;

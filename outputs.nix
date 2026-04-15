@@ -6,7 +6,6 @@
   inherit (inputs.nixpkgs) lib;
 
   mylib = import ./lib {inherit lib self;};
-
   getHosts = let
     entries = builtins.readDir "${self}/devices";
     entryNames = builtins.attrNames entries;
@@ -15,25 +14,48 @@
 
   hostConfigs = builtins.listToAttrs (map (name: let
       path = "${self}/devices/${name}";
-      mods = mylib.getModulePath;
+      deviceTomlPath = "${path}/device.toml";
+      defaultDeviceConfig = {
+        name = name;
+        dotfiles = {};
+        host = {};
+        home = {};
+        packages = {};
+        stablePackages = {};
+        extraHostModules = [];
+        extraHomeModules = [];
+        extraNixosModules = [];
+      };
+      loadedDeviceConfig =
+        if builtins.pathExists deviceTomlPath
+        then mylib.readToml deviceTomlPath
+        else {};
+      deviceConfig =
+        lib.recursiveUpdate defaultDeviceConfig loadedDeviceConfig;
     in {
       name = name;
-      value = import "${self}/devices/${name}/default.nix" {
-        inherit
-          path
-          mods
-          mylib
-          ;
+      value = mylib.mkDevice {
+        inherit path deviceConfig;
       };
     })
     getHosts);
 
   nixosConfigs = builtins.listToAttrs (map (name: let
       host = hostConfigs.${name};
-      hostModules = host.modules.host or [];
+      hostModules =
+        (host.modules.host or [])
+        ++ mylib.getHostModules (host.extraHostModules or []);
+      secretsModulePath = "${self}/devices/${name}/secrets.nix";
+      hostSecretsModule =
+        if builtins.pathExists secretsModulePath
+        then [secretsModulePath]
+        else [];
       hostConfig = mylib.mergeConfig host;
 
-      homeModules = host.modules.home or [];
+      homeModules =
+        (host.modules.home or [])
+        ++ mylib.getHomeModules (host.extraHomeModules or []);
+      extraNixosModules = host.extraNixosModules or [];
       system = hostConfig.platform;
 
       extraModules =
@@ -71,7 +93,10 @@
               home-manager.sharedModules = homeModules;
             }
           ]
-          ++ hostModules ++ extraModules;
+          ++ hostModules
+          ++ hostSecretsModule
+          ++ extraModules
+          ++ extraNixosModules;
       };
     })
     getHosts);

@@ -1,0 +1,97 @@
+username = "Tenyoru"
+name = "core"
+platform = "x86_64-linux"
+
+[packages]
+"pipewire.jack" = true
+opencode = true
+openssl = true
+imagemagick = true
+"notify-desktop" = true
+postgresql = true
+"dfu-util" = true
+"ayugram-desktop" = true
+chezmoi = true
+zig = true
+"platformio-core" = true
+"gnome-keyring" = true
+"xwayland-satellite" = true
+wtype = true
+ffmpeg = true
+"yt-dlp" = true
+"tor-browser" = true
+devenv = true
+gnumake = true
+just = true
+macchina = true
+"wf-recorder" = true
+"wireguard-tools" = true
+qpwgraph = true
+pavucontrol = true
+taskwarrior3 = true
+timewarrior = true
+jmtpfs = true
+exiftool = true
+veracrypt = true
+hugo = true
+"dart-sass" = true
+mpd = true
+typst = true
+mpc = true
+blender = true
+"orca-slicer" = true
+"ssh-agents" = true
+rustup = true
+"anki-bin" = true
+waybar = true
+go = true
+fluffychat = true
+cloudflared = true
+"proton-pass" = true
+
+[stablePackages]
+guitarix = true
+iamb = true
+
+[dotfiles]
+enable = true
+bin = true
+
+[host]
+fonts = true
+locale = true
+audio = true
+nix = true
+user = true
+ssh = true
+wayland = true
+virtualisation = true
+docker = true
+boot = true
+hardware = true
+networking = true
+programs = true
+services = true
+syncthing = true
+"core-configuration" = true
+
+[home]
+opencode = true
+claude = true
+cli-suggar = true
+dev = true
+python = true
+whisper = true
+git = true
+obsidian = true
+zathura = true
+zen-browser = true
+tmux = true
+fish = true
+neovim = true
+mako = true
+ghostty = true
+niri = true
+noctalia = true
+discord = true
+spotify = true

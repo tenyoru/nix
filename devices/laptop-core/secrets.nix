@@ -16,8 +16,8 @@ in {
         owner = username;
         mode = "0400";
       };
-      wireguard_frankfurt_conf = {
-        key = "wireguard_frankfurt_conf";
+      wireguard_belgium_conf = {
+        key = "wireguard_belgium_conf";
         owner = username;
       };
       sudo_password = {
