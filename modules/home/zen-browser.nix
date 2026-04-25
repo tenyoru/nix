@@ -6,13 +6,63 @@
   ...
 }: let
   noctaliaEnabled = lib.attrByPath ["programs" "noctalia-shell" "enable"] false config;
+  zenSafeLauncher = pkgs.writeShellScriptBin "zen-twilight-safe" ''
+    set -eu
+
+    if ! ${pkgs.procps}/bin/pgrep -x zen-twilight >/dev/null 2>&1; then
+      for base in "$HOME/.config/zen" "$HOME/.zen"; do
+        [ -d "$base" ] || continue
+        ${pkgs.findutils}/bin/find "$base" -maxdepth 2 -type f -name ".parentlock" -delete 2>/dev/null || true
+        ${pkgs.findutils}/bin/find "$base" -maxdepth 2 -type l -name "lock" -delete 2>/dev/null || true
+      done
+    fi
+
+    exec zen-twilight "$@"
+  '';
 in {
   imports = [inputs.zen-browser.homeModules.twilight];
 
   # Install Tridactyl native messenger
   home.packages = with pkgs; [
     tridactyl-native
+    zenSafeLauncher
+    imv
   ];
+
+  xdg.mimeApps.defaultApplications = {
+    "image/png" = "imv.desktop";
+    "image/jpeg" = "imv.desktop";
+    "image/gif" = "imv.desktop";
+    "image/webp" = "imv.desktop";
+    "image/bmp" = "imv.desktop";
+    "image/tiff" = "imv.desktop";
+    "image/svg+xml" = "imv.desktop";
+  };
+
+  xdg.desktopEntries."zen-twilight" = {
+    name = "Zen Browser (Twilight)";
+    genericName = "Web Browser";
+    exec = "${lib.getExe zenSafeLauncher} %U";
+    terminal = false;
+    type = "Application";
+    icon = "zen-twilight";
+    categories = [
+      "Network"
+      "WebBrowser"
+    ];
+    mimeType = [
+      "text/html"
+      "text/xml"
+      "application/xhtml+xml"
+      "application/vnd.mozilla.xul+xml"
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+    ];
+    settings = {
+      StartupNotify = "true";
+      StartupWMClass = "zen-twilight";
+    };
+  };
 
   programs.zen-browser = {
     enable = true;
@@ -73,6 +123,46 @@ in {
 
       Handlers = {
         mimeTypes."application/pdf".action = "saveToDisk";
+        mimeTypes."image/png" = {
+          action = "useHelperApp";
+          ask = false;
+          handlers = [
+            {
+              name = "imv";
+              path = "${pkgs.imv}/bin/imv";
+            }
+          ];
+        };
+        mimeTypes."image/jpeg" = {
+          action = "useHelperApp";
+          ask = false;
+          handlers = [
+            {
+              name = "imv";
+              path = "${pkgs.imv}/bin/imv";
+            }
+          ];
+        };
+        mimeTypes."image/gif" = {
+          action = "useHelperApp";
+          ask = false;
+          handlers = [
+            {
+              name = "imv";
+              path = "${pkgs.imv}/bin/imv";
+            }
+          ];
+        };
+        mimeTypes."image/webp" = {
+          action = "useHelperApp";
+          ask = false;
+          handlers = [
+            {
+              name = "imv";
+              path = "${pkgs.imv}/bin/imv";
+            }
+          ];
+        };
       };
 
       extensions = {

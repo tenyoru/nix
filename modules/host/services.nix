@@ -17,12 +17,14 @@ in {
     spice-vdagentd.enable = true;
     postgresql.enable = true;
     libinput.enable = true; # Enable touchpad support
-    udev.packages = with pkgs; [
-      usbutils
-      platformio-core
-      stlink
-      openocd
-    ];
+    udev = {
+      packages = with pkgs; [
+        usbutils
+        platformio-core
+        stlink
+        openocd
+      ];
+    };
     logind.settings = {
       Login = {
         HandlePowerKey = "ignore";

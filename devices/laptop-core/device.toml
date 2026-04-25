@@ -27,8 +27,8 @@ macchina = true
 "wireguard-tools" = true
 qpwgraph = true
 pavucontrol = true
-taskwarrior3 = true
-timewarrior = true
+taskwarrior3 = false
+timewarrior = false
 jmtpfs = true
 exiftool = true
 veracrypt = true
@@ -47,6 +47,7 @@ go = true
 fluffychat = true
 cloudflared = true
 "proton-pass" = true
+"bambu-studio" = true
 
 [stablePackages]
 guitarix = true

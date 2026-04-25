@@ -94,7 +94,12 @@ gc:
 clean:
     @printf '\033[1;33mRemoving old generations...\033[0m\n'
     sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system
+    nix-env --delete-generations old || true
+    @printf '\033[1;33mCollecting garbage...\033[0m\n'
     sudo nix-collect-garbage -d
+    nix-collect-garbage -d
+    @printf '\033[1;33mOptimizing nix store...\033[0m\n'
+    sudo nix-store --optimise
     @printf '\033[0;32m✓ Cleanup complete\033[0m\n'
 
 # Edit secrets (decrypt, edit, re-encrypt)
