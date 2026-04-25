@@ -58,6 +58,11 @@
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
+    zig-overlay = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     cclock.url = "git+https://codeberg.org/tenyoru/cclock";
 
     sops-nix = {
