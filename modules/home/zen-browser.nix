@@ -480,6 +480,12 @@ in {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/proton-vpn-firefox-extension/latest.xpi";
           installation_mode = "force_installed";
         };
+
+        # Reverso
+        "context@reverso.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/reverso-context-beta/latest.xpi";
+          installation_mode = "force_installed";
+        };
       };
     };
   };

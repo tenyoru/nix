@@ -7,9 +7,12 @@
 in {
   programs.git = {
     enable = true;
-    settings.user = {
-      name = gitConfig.userName;
-      email = gitConfig.userEmail;
+    settings = {
+      user = {
+        name = gitConfig.userName;
+        email = gitConfig.userEmail;
+      };
+      core.editor = "nvim";
     };
   };
 }

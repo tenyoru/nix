@@ -1,5 +1,5 @@
 {pkgs, ...}: {
   home.packages = [
-    pkgs.zigpkgs.master
+    pkgs.zigpkgs."0.16.0"
   ];
 }
