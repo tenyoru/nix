@@ -55,6 +55,8 @@ fluffychat = true
 cloudflared = true
 "proton-pass" = true
 "bambu-studio" = true
+libresprite = true
+cheese = true
 
 [stablePackages]
 guitarix = true
@@ -101,5 +103,3 @@ mako = true
 ghostty = true
 niri = true
 noctalia = true
-discord = true
-spotify = true
