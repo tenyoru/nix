@@ -33,6 +33,7 @@
       la = "ls -A";
       ".." = "cd ..";
       "..." = "cd ../..";
+      search = "cha ddg:";
     };
 
     interactiveShellInit = ''
