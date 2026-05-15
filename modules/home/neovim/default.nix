@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   config,
   lib,
@@ -14,7 +13,8 @@ in {
     viAlias = true;
     vimAlias = true;
     defaultEditor = true;
-    package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    withRuby = false;
+    withPython3 = false;
   };
 
   # LSP servers and tools
@@ -52,8 +52,13 @@ in {
     tinymist
   ];
 
-  # Symlink to dotfiles when enabled
-  xdg.configFile."nvim" = lib.mkIf useConfig {
-    source = config.lib.file.mkOutOfStoreSymlink (mylib.dotfileConfig "nvim");
-  };
+  # Prevent HM from writing its own init.lua into the dotfiles-managed nvim dir
+  xdg.configFile."nvim/init.lua".enable = lib.mkForce false;
+
+  # Symlink to dotfiles when enabled (activation-time to avoid sandbox path check)
+  home.activation.nvimConfig = lib.mkIf useConfig (
+    lib.hm.dag.entryAfter ["writeBoundary"] ''
+      ln -sfT "${mylib.dotfileConfig "nvim"}" "${config.xdg.configHome}/nvim"
+    ''
+  );
 }

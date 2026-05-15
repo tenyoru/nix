@@ -24,6 +24,10 @@ in {
     pulse.enable = true;
     jack.enable = true;
     wireplumber.enable = true;
+    extraLadspaPackages = lib.mkIf audioConfig.noiseCancellation [
+      pkgs.deepfilternet
+      pkgs.ladspaPlugins
+    ];
   };
 
   services.pipewire.extraConfig.pipewire = lib.mkMerge [
@@ -52,7 +56,7 @@ in {
                   {
                     type = "ladspa";
                     name = "deepfilter";
-                    plugin = "${pkgs.deepfilternet}/lib/ladspa/libdeep_filter_ladspa.so";
+                    plugin = "libdeep_filter_ladspa";
                     label = "deep_filter_stereo";
                     control = {
                       "Attenuation Limit (dB)" = 100.0;
@@ -62,7 +66,7 @@ in {
                   {
                     type = "ladspa";
                     name = "gate";
-                    plugin = "${pkgs.ladspaPlugins}/lib/ladspa/gate_1410.so";
+                    plugin = "gate_1410";
                     label = "gate";
                     control = {
                       "LF key filter (Hz)" = 150.0;
@@ -100,7 +104,7 @@ in {
                   {
                     type = "ladspa";
                     name = "compressor";
-                    plugin = "${pkgs.ladspaPlugins}/lib/ladspa/sc4_1882.so";
+                    plugin = "sc4_1882";
                     label = "sc4";
                     control = {
                       "RMS/peak" = 0.0;
