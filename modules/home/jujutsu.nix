@@ -17,9 +17,7 @@ in {
         default-command = "log";
         pager = "less -FRX";
       };
-      git = {
-        auto-local-branch = true;
-      };
+      remotes.origin.auto-track-bookmarks = "*";
     };
   };
 }

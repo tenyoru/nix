@@ -176,7 +176,7 @@ in {
             }
           ];
         };
-        activeThemeID = "firefox-compact-dark@mozilla.org";
+        activeThemeID = "firefox-compact@mozilla.org";
       };
 
       NoDefaultBookmarks = true;
@@ -397,7 +397,7 @@ in {
         "zen.onboarding.seen" = true;
         "zen.view.compact.hide-toolbar" = false;
         "zen.tabs.show-close-button" = false;
-        "layout.css.prefers-color-scheme.content-override" = 0;
+        "layout.css.prefers-color-scheme.content-override" = 2;
 
         # Hide tab close buttons
         "browser.tabs.closeButtons" = 2;

@@ -83,6 +83,7 @@ programs = true
 services = true
 syncthing = true
 "core-configuration" = true
+tailscale = false
 
 [home]
 opencode = true
@@ -104,4 +105,6 @@ ghostty = true
 niri = true
 noctalia = true
 chawan = true
-spotify = true
+discord = true
+jujutsu = true
+darkman = true

@@ -52,13 +52,8 @@ in {
     tinymist
   ];
 
-  # Prevent HM from writing its own init.lua into the dotfiles-managed nvim dir
-  xdg.configFile."nvim/init.lua".enable = lib.mkForce false;
-
-  # Symlink to dotfiles when enabled (activation-time to avoid sandbox path check)
-  home.activation.nvimConfig = lib.mkIf useConfig (
-    lib.hm.dag.entryAfter ["writeBoundary"] ''
-      ln -sfT "${mylib.dotfileConfig "nvim"}" "${config.xdg.configHome}/nvim"
-    ''
-  );
+  xdg.configFile."nvim" = lib.mkIf useConfig {
+    source = config.lib.file.mkOutOfStoreSymlink (mylib.dotfileConfig "nvim");
+  };
+  xdg.configFile."nvim/init.lua".enable = lib.mkIf useConfig (lib.mkForce false);
 }

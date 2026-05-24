@@ -8,10 +8,10 @@
       hostName = "nixos";
       allowedTcpPorts = [8080];
       extraHosts = ''
-        # 127.0.0.1 youtube.com
-        # 127.0.0.1 music.youtube.com
-        # 127.0.0.1 www.youtube.com
-        # 127.0.0.1 api.youtube.com
+        127.0.0.1 youtube.com
+        127.0.0.1 music.youtube.com
+        127.0.0.1 www.youtube.com
+        127.0.0.1 api.youtube.com
       '';
       wireguardConfig = config.sops.secrets.wireguard_belgium_conf.path;
     }
@@ -21,7 +21,6 @@ in {
   networking = {
     hostName = networkingConfig.hostName; # Define your hostname.
     networkmanager.enable = true;
-    wireless.enable = true; # Explicitly disable wpa_supplicant when using NetworkManager
 
     firewall.allowedTCPPorts = networkingConfig.allowedTcpPorts;
     extraHosts = networkingConfig.extraHosts;

@@ -54,6 +54,8 @@ in {
           NIXOS_CONFIG_PATH = mylib.nixosConfigPath;
           NIXOS_SCRIPTS_BIN_PATH = mylib.scriptsBinDir;
           NIXOS_SCRIPTS_PYTHON_PATH = mylib.scriptsPythonDir;
+          CC = "zig cc";
+          CXX = "zig c++";
         };
       };
     };
