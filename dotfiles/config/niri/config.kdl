@@ -68,20 +68,20 @@ input {
 
     mouse {
         // off
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "no-scroll"
+        natural-scroll
+        accel-speed 0.2
+        accel-profile "flat"
+        scroll-method "no-scroll"
     }
 
     trackpoint {
         // off
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "on-button-down"
-        // scroll-button 273
-        // middle-emulation
+        natural-scroll
+        accel-speed 0.2
+        accel-profile "flat"
+        scroll-method "on-button-down"
+        scroll-button 273
+        middle-emulation
     }
 
     // Uncomment this to make the mouse warp to the center of newly focused windows.
@@ -396,6 +396,11 @@ window-rule {
     // Clips window contents to the rounded corner boundaries.
     clip-to-geometry true
     draw-border-with-background false
+}
+
+window-rule {
+    match app-id=r#"^org\.gnome\."#
+    draw-border-with-background true
 }
 
 

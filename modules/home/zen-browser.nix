@@ -6,6 +6,9 @@
   ...
 }: let
   noctaliaEnabled = lib.attrByPath ["programs" "noctalia-shell" "enable"] false config;
+  # Set false to stop injecting Noctalia's generated CSS into Zen's
+  # userChrome/userContent (the Noctalia shell itself stays enabled).
+  zenNoctaliaCssEnabled = false;
   zenSafeLauncher = pkgs.writeShellScriptBin "zen-twilight-safe" ''
     set -eu
 
@@ -510,7 +513,7 @@ in {
         $DRY_RUN_CMD ${pkgs.gnused}/bin/sed -i '/zen-browser\/zen-userChrome\.css/d' "$user_chrome"
         $DRY_RUN_CMD ${pkgs.gnused}/bin/sed -i '/zen-browser\/zen-userContent\.css/d' "$user_content"
 
-        if [ "${if noctaliaEnabled then "1" else "0"}" = "1" ]; then
+        if [ "${if zenNoctaliaCssEnabled then "1" else "0"}" = "1" ]; then
           if ! ${pkgs.gnugrep}/bin/grep -Fq "$LINE_CHROME" "$user_chrome"; then
             $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "%s\n" "$LINE_CHROME" >> "$user_chrome"
           fi

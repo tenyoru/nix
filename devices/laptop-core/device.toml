@@ -53,13 +53,13 @@ go = true
 fluffychat = true
 cloudflared = true
 "proton-pass" = true
-"bambu-studio" = true
 libresprite = true
 cheese = true
 
 [stablePackages]
 guitarix = true
 iamb = true
+"bambu-studio" = true
 
 [dotfiles]
 enable = true
