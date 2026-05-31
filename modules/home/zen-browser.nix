@@ -179,7 +179,6 @@ in {
             }
           ];
         };
-        activeThemeID = "firefox-compact@mozilla.org";
       };
 
       NoDefaultBookmarks = true;
@@ -341,6 +340,9 @@ in {
         "extensions.update.enabled" = true;
         "extensions.update.autoUpdateDefault" = true;
         "extensions.openPopupWithoutUserGesture.enabled" = true;
+
+        # Force the dark browser chrome theme (UI only, not page content).
+        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
 
         "network.http.referer.XOriginTrimmingPolicy" = 2;
 
