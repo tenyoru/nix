@@ -73,8 +73,9 @@ nix = true
 user = true
 ssh = true
 wayland = true
-virtualisation = true
-docker = true
+virtualisation = false
+clamav = true
+docker = false
 boot = true
 hardware = true
 networking = true
@@ -83,7 +84,6 @@ services = true
 syncthing = true
 "core-configuration" = true
 tailscale = false
-
 [home]
 opencode = true
 claude = true

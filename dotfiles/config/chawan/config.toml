@@ -2,7 +2,9 @@
 images = true
 cookie = true
 # styling = false
-Esc = 'cmd.line.cancel'
+
+[line]
+'C-[' = 'line.cancel'
 
 [page]
 'C-k' = '() => pager.load("ddg:")'
