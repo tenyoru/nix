@@ -18,7 +18,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     # core tools
-    inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
+    neovim
     pkg-config
     # secrets management
     sops

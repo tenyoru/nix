@@ -8,7 +8,7 @@
   noctaliaEnabled = lib.attrByPath ["programs" "noctalia-shell" "enable"] false config;
   # Set false to stop injecting Noctalia's generated CSS into Zen's
   # userChrome/userContent (the Noctalia shell itself stays enabled).
-  zenNoctaliaCssEnabled = false;
+  zenNoctaliaCssEnabled = true;
   zenSafeLauncher = pkgs.writeShellScriptBin "zen-twilight-safe" ''
     set -eu
 
@@ -498,8 +498,6 @@ in {
   home.activation.zenNoctaliaCss = lib.hm.dag.entryAfter ["writeBoundary"] ''
     CSS_CHROME="$HOME/.cache/noctalia/zen-browser/zen-userChrome.css"
     CSS_CONTENT="$HOME/.cache/noctalia/zen-browser/zen-userContent.css"
-    LINE_CHROME="@import \"$CSS_CHROME\";"
-    LINE_CONTENT="@import \"$CSS_CONTENT\";"
 
     for base in "$HOME/.config/zen" "$HOME/.zen"; do
       [ -d "$base" ] || continue
@@ -510,18 +508,13 @@ in {
 
         user_chrome="$dir/userChrome.css"
         user_content="$dir/userContent.css"
-        $DRY_RUN_CMD touch "$user_chrome" "$user_content"
-
-        $DRY_RUN_CMD ${pkgs.gnused}/bin/sed -i '/zen-browser\/zen-userChrome\.css/d' "$user_chrome"
-        $DRY_RUN_CMD ${pkgs.gnused}/bin/sed -i '/zen-browser\/zen-userContent\.css/d' "$user_content"
 
         if [ "${if zenNoctaliaCssEnabled then "1" else "0"}" = "1" ]; then
-          if ! ${pkgs.gnugrep}/bin/grep -Fq "$LINE_CHROME" "$user_chrome"; then
-            $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "%s\n" "$LINE_CHROME" >> "$user_chrome"
-          fi
-          if ! ${pkgs.gnugrep}/bin/grep -Fq "$LINE_CONTENT" "$user_content"; then
-            $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "%s\n" "$LINE_CONTENT" >> "$user_content"
-          fi
+          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "@import \"%s\";\n" "$CSS_CHROME" > "$user_chrome"
+          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "@import \"%s\";\n" "$CSS_CONTENT" > "$user_content"
+        else
+          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "" > "$user_chrome"
+          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "" > "$user_content"
         fi
       done
     done

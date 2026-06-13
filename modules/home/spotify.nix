@@ -5,7 +5,7 @@
   ...
 }: let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  noctaliaEnabled = config.programs.noctalia-shell.enable or false;
+  noctaliaEnabled = config.programs.noctalia.enable or false;
 in {
   imports = [inputs.spicetify-nix.homeManagerModules.default];
 
@@ -20,6 +20,6 @@ in {
     ];
 
     theme = if noctaliaEnabled then spicePkgs.themes.comfy else spicePkgs.themes.text;
-    colorScheme = if noctaliaEnabled then "Comfy" else "Ocean";
+    colorScheme = if noctaliaEnabled then "Comfy" else "Nord";
   };
 }

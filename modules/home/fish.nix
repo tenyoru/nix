@@ -62,6 +62,7 @@
       set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
       set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
       set -gx FZF_ALT_C_COMMAND 'fd --type d --hidden --follow --exclude .git'
+      fish_add_path $HOME/.local/bin
       set -gx CLAUDE_AUTOCOMPACT_PCT_OVERRIDE 80
       if test -f /run/secrets/context7_api_key
         set -gx CONTEXT7_API_KEY (cat /run/secrets/context7_api_key)
