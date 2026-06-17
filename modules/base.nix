@@ -23,6 +23,7 @@ in {
     # secrets management
     sops
     age
+    pciutils
   ];
 
   nix.settings = {

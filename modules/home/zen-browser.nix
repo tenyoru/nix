@@ -5,14 +5,10 @@
   pkgs,
   ...
 }: let
-  noctaliaEnabled = lib.attrByPath ["programs" "noctalia-shell" "enable"] false config;
-  # Set false to stop injecting Noctalia's generated CSS into Zen's
-  # userChrome/userContent (the Noctalia shell itself stays enabled).
-  zenNoctaliaCssEnabled = true;
-  zenSafeLauncher = pkgs.writeShellScriptBin "zen-twilight-safe" ''
+  zenSafeLauncher = pkgs.writeShellScriptBin "zen-safe" ''
     set -eu
 
-    if ! ${pkgs.procps}/bin/pgrep -x zen-twilight >/dev/null 2>&1; then
+    if ! ${pkgs.procps}/bin/pgrep -x zen >/dev/null 2>&1; then
       for base in "$HOME/.config/zen" "$HOME/.zen"; do
         [ -d "$base" ] || continue
         ${pkgs.findutils}/bin/find "$base" -maxdepth 2 -type f -name ".parentlock" -delete 2>/dev/null || true
@@ -20,10 +16,10 @@
       done
     fi
 
-    exec zen-twilight "$@"
+    exec zen "$@"
   '';
 in {
-  imports = [inputs.zen-browser.homeModules.twilight];
+  imports = [inputs.zen-browser.homeModules.default];
 
   # Install Tridactyl native messenger
   home.packages = with pkgs; [
@@ -42,13 +38,13 @@ in {
     "image/svg+xml" = "imv.desktop";
   };
 
-  xdg.desktopEntries."zen-twilight" = {
+  xdg.desktopEntries."zen" = {
     name = "Zen Browser (Twilight)";
     genericName = "Web Browser";
     exec = "${lib.getExe zenSafeLauncher} %U";
     terminal = false;
     type = "Application";
-    icon = "zen-twilight";
+    icon = "zen";
     categories = [
       "Network"
       "WebBrowser"
@@ -63,7 +59,7 @@ in {
     ];
     settings = {
       StartupNotify = "true";
-      StartupWMClass = "zen-twilight";
+      StartupWMClass = "zen";
     };
   };
 
@@ -341,9 +337,6 @@ in {
         "extensions.update.autoUpdateDefault" = true;
         "extensions.openPopupWithoutUserGesture.enabled" = true;
 
-        # Force the dark browser chrome theme (UI only, not page content).
-        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-
         "network.http.referer.XOriginTrimmingPolicy" = 2;
 
         "privacy.userContext.ui.enabled" = true;
@@ -407,7 +400,7 @@ in {
         # Hide tab close buttons
         "browser.tabs.closeButtons" = 2;
 
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = false;
         "browser.compactmode.show" = true;
         "browser.privateWindowSeparation.enabled" = false;
 
@@ -494,31 +487,6 @@ in {
       };
     };
   };
-
-  home.activation.zenNoctaliaCss = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    CSS_CHROME="$HOME/.cache/noctalia/zen-browser/zen-userChrome.css"
-    CSS_CONTENT="$HOME/.cache/noctalia/zen-browser/zen-userContent.css"
-
-    for base in "$HOME/.config/zen" "$HOME/.zen"; do
-      [ -d "$base" ] || continue
-      for profile in "$base"/*.*; do
-        [ -d "$profile" ] || continue
-        dir="$profile/chrome"
-        $DRY_RUN_CMD mkdir -p "$dir"
-
-        user_chrome="$dir/userChrome.css"
-        user_content="$dir/userContent.css"
-
-        if [ "${if zenNoctaliaCssEnabled then "1" else "0"}" = "1" ]; then
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "@import \"%s\";\n" "$CSS_CHROME" > "$user_chrome"
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "@import \"%s\";\n" "$CSS_CONTENT" > "$user_content"
-        else
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "" > "$user_chrome"
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/printf "" > "$user_content"
-        fi
-      done
-    done
-  '';
 
   # Tridactyl configuration
   # move to config dir and make a link
