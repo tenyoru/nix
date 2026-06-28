@@ -5,7 +5,7 @@ local function command_factory(client, bufnr, cmd)
     arguments = { cmd },
   }, { bufnr = bufnr })
 end
-local capabilities = require("blink.cmp").get_lsp_capabilities()
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 ---@type vim.lsp.Config
 return {

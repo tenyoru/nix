@@ -2,9 +2,11 @@
   "permissions": {
     "defaultMode": "default"
   },
+  "model": "opus",
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "lua-lsp@claude-plugins-official": true
+    "lua-lsp@claude-plugins-official": true,
+    "ponytail@ponytail": true
   },
-  "model": "sonnet"
+  "tui": "fullscreen"
 }

@@ -76,6 +76,6 @@ in {
       customPaneNavigationAndResize = true;
       keyMode = "vi";
       shortcut = "a";
-      mouse = false;
+      mouse = true;
     });
 }

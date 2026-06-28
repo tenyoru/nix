@@ -41,7 +41,6 @@ mpd = true
 typst = true
 mpc = true
 blender = true
-"orca-slicer" = true
 "ssh-agents" = true
 rustup = true
 "anki-bin" = true
@@ -49,10 +48,9 @@ waybar = true
 go = true
 fluffychat = true
 cloudflared = true
-"proton-pass" = true
 libresprite = true
 cheese = true
-"zed-editor" = true
+"bitwarden-cli" = true
 
 [stablePackages]
 guitarix = true
@@ -107,3 +105,4 @@ discord = false
 jujutsu = true
 darkman = false
 ayugram = true
+spotify = true

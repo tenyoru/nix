@@ -4,7 +4,6 @@ local plugins = {
   "https://github.com/nvim-mini/mini.icons",
   "https://github.com/stevearc/oil.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
-  "https://github.com/Saghen/blink.cmp",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
 }
 
@@ -19,7 +18,6 @@ local p = {
   "tabline",
   "treesitter",
   "markdown",
-  "blink",
 }
 
 for _, plugin in ipairs(p) do

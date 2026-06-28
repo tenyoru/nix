@@ -25,6 +25,7 @@ in {
     firewall.allowedTCPPorts = networkingConfig.allowedTcpPorts;
     extraHosts = networkingConfig.extraHosts;
     wg-quick.interfaces.wg0 = {
+      autostart = false;
       configFile = networkingConfig.wireguardConfig;
       privateKeyFile = wireguardSecret;
     };

@@ -131,6 +131,11 @@ local km = {
   {{"n", "v"}, "<leader>p", [["+p]], { desc = "Paste from system clipboard" }},
   {{"n", "v"}, "<leader>y", [["+y]], { desc = "Yank to system clipboard" }},
   {"n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" }},
+  {"n", "<leader>yp", function()
+    local path = vim.fn.expand("%:.")
+    vim.fn.setreg("+", path)
+    vim.notify(path, vim.log.levels.INFO)
+  end, { desc = "Yank relative file path" }},
 
   -- Navigation (visual lines)
   {{'n', 'v'}, 'j', "v:count == 0 ? 'gj' : 'j'", {expr = true}},
@@ -154,6 +159,7 @@ local km = {
   -- Misc
   {{"n", "v", "i"}, '<D-SPACE>', ''},
   {"i", "<C-d>", "<C-k>", { desc = "Digraph" }},
+  {"i", "<C-Space>", vim.lsp.completion.get, { desc = "Trigger LSP completion" }},
 
   -- Send to Claude Code
   {"v", "<leader>a", function() send_to_claude(false) end, { desc = "Copy selection for Claude Code" }},
