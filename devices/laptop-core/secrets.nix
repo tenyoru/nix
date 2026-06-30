@@ -30,6 +30,10 @@ in {
         owner = username;
         mode = "0400";
       };
+      sim_pin = {
+        key = "sim_pin";
+        mode = "0400";
+      };
     };
   };
 }
