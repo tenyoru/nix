@@ -81,6 +81,7 @@ syncthing = true
 "core-configuration" = true
 tailscale = false
 eid = true
+steam = true
 [home]
 opencode = true
 claude = true
