@@ -8,9 +8,6 @@
       # nerd-fonts.iosevka
       #nerd-fonts.fira-code
       liberation_ttf
-      # vazir-fonts
-      #nerd-fonts._0xproto
-      monocraft
     ];
 
     fontconfig = {
