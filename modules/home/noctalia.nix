@@ -1,3 +1,13 @@
+# Noctalia — Wayland desktop shell (Quickshell-based).
+# Docs (v5 config schema): https://docs.noctalia.dev/v5/
+#   Bar widgets:   https://docs.noctalia.dev/v5/bar/widgets/
+#   Theming:       https://docs.noctalia.dev/v5/theming/
+#   Niri setup:    https://docs.noctalia.dev/v5/compositor-settings/niri/
+# Source: https://github.com/noctalia-dev/noctalia
+# Full schema with defaults: `noctalia config export full`
+# Validate config:           `noctalia config validate`
+# Template ids:              `noctalia theme --list-templates`
+# nix-monitor plugin: https://github.com/noctalia-dev/community-plugins
 {
   config,
   inputs,
@@ -7,122 +17,85 @@
 
   programs.noctalia = {
     enable = true;
+    # noctalia v5 config schema (snake_case); validate with `noctalia config validate`
     settings = {
-      bar = {
+      bar.widgets = {
         position = "top";
-        displayMode = "auto_hide";
-        autoHideDelay = 300;
-        autoShowDelay = 0;
-        showOnWorkspaceSwitch = false;
-        showCapsule = false;
-        widgets = {
-          left = [
-            {
-              id = "Launcher";
-            }
-            {
-              id = "Clock";
-            }
-            {
-              id = "SystemMonitor";
-            }
-            {
-              id = "ActiveWindow";
-            }
-            {
-              id = "MediaMini";
-            }
-          ];
-          center = [
-            {
-              hideUnoccupied = false;
-              id = "Workspace";
-              labelMode = "none";
-            }
-          ];
-          right = [
-            {
-              type = "avivbintangaringga/nix-monitor:nix-monitor";
-            }
-            {
-              id = "Tray";
-            }
-            {
-              id = "NotificationHistory";
-            }
-            {
-              id = "Battery";
-            }
-            {
-              id = "Volume";
-            }
-            {
-              id = "Brightness";
-            }
-            {
-              id = "ControlCenter";
-            }
-          ];
-        };
+        capsule = true;
+        background_opacity = 0.85;
+        margin_edge = 6;
+        margin_ends = 12;
+        start = ["launcher" "clock" "cpu" "ram" "active_window" "media"];
+        center = ["workspaces"];
+        end = ["nix_monitor" "tray" "notifications" "battery" "volume" "brightness" "control-center"];
+      };
+
+      widget = {
+        workspaces.display = "none";
+        nix_monitor.type = "avivbintangaringga/nix-monitor:nix-monitor";
       };
 
       plugins.enabled = ["avivbintangaringga/nix-monitor"];
 
-      colorSchemes.predefinedScheme = "Monochrome";
+      plugin_settings."avivbintangaringga/nix-monitor" = {
+        update_command = "cd ${config.home.homeDirectory}/.nixos && just update-switch";
+        clean_command = "cd ${config.home.homeDirectory}/.nixos && just gc";
+      };
+
+      theme = {
+        source = "wallpaper";
+        wallpaper_scheme = "m3-monochrome";
+        templates = {
+          builtin_ids = ["btop" "ghostty" "gtk3" "gtk4" "niri" "qt"];
+          community_ids = [
+            "bat"
+            "discord"
+            "fuzzel"
+            "neovim"
+            "obs"
+            "obsidian"
+            "opencode"
+            "prismlauncher"
+            "spicetify"
+            "steam"
+            "telegram"
+            "yazi"
+            "zathura"
+            "zen-browser"
+          ];
+        };
+      };
+
+      location.address = "Liege, Belgium";
+
+      shell.avatar_path = "${config.home.homeDirectory}/.face";
+
+      idle.behavior = {
+        "screen-off" = {
+          enabled = true;
+          timeout = 600.0;
+        };
+        lock = {
+          enabled = true;
+          timeout = 660.0;
+        };
+        "lock-and-suspend" = {
+          enabled = true;
+          timeout = 1800.0;
+        };
+      };
 
       wallpaper = {
         enabled = true;
-        overviewEnabled = true;
         directory = "${config.home.homeDirectory}/.nixos/dotfiles/wallpapers/noctalia";
-        fillMode = "crop";
-        setWallpaperOnAllMonitors = true;
-        linkLightAndDarkWallpapers = true;
-        automationEnabled = true;
-        wallpaperChangeMode = "random";
-        randomIntervalSec = 900;
-        transitionDuration = 1200;
-        transitionType = [
-          "fade"
-          "wipe"
-        ];
-      };
-
-      general = {
-        avatarImage = "${config.home.homeDirectory}/.face";
-        radiusRatio = 0.2;
-        compactLockScreen = false;
-        lockOnSuspend = true;
-        lockScreenAnimations = true;
-        showSessionButtonsOnLockScreen = true;
-        enableLockScreenMediaControls = true;
-        enableLockScreenCountdown = true;
-        lockScreenCountdownDuration = 10000;
-      };
-
-      location = {
-        monthBeforeDay = true;
-        name = "Liege, Belgium";
-      };
-
-      templates = {
-        activeTemplates = [
-          {
-            id = "spicetify";
-            enabled = true;
-          }
-          {
-            id = "zenBrowser";
-            enabled = true;
-          }
-        ];
-      };
-
-      idle = {
-        enabled = true;
-        screenOffTimeout = 600;
-        lockTimeout = 660;
-        suspendTimeout = 1800;
-        fadeDuration = 5;
+        fill_mode = "crop";
+        transition = ["fade" "wipe"];
+        transition_duration = 1200.0;
+        automation = {
+          enabled = true;
+          interval_seconds = 900;
+          order = "random";
+        };
       };
     };
   };

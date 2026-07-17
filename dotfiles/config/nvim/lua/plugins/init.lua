@@ -5,11 +5,10 @@ local plugins = {
   "https://github.com/stevearc/oil.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+  "https://github.com/RRethy/base16-nvim",
 }
 
 vim.pack.add(plugins)
-
-vim.cmd([[colorscheme jellybeans]])
 
 local p = {
   "fzf",

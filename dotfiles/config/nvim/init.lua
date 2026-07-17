@@ -24,6 +24,15 @@ for _, m in ipairs({ "options", "keymaps", "autocmds", "disable" }) do
 end
 require("plugins")
 
+-- noctalia renders lua/matugen.lua from the active color scheme
+-- (community template "neovim"); jellybeans until the first render
+local has_matugen, matugen = pcall(require, 'matugen')
+if has_matugen then
+  matugen.setup()
+else
+  vim.cmd([[colorscheme jellybeans]])
+end
+
 vim.lsp.enable({
   "basedpyright",
   "clangd",

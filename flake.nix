@@ -41,8 +41,6 @@
     # packages need patches only guaranteed to build against its own pinned nixpkgs
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 
-    ayugram-desktop.url = "github:/ayugram-port/ayugram-desktop/release?submodules=1";
-
     # hyprland.url = "github:hyprwm/Hyprland";
     # hyprland-plugins = {
     #   url = "github:hyprwm/hyprland-plugins";
