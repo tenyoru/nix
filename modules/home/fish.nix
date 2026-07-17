@@ -1,6 +1,9 @@
 {config, mylib, pkgs, ...}: {
   programs.fish = {
     enable = true;
+    # fish 4.8 dropped create_manpage_completions.py, which this
+    # option shells out to — breaks the build until home-manager catches up
+    generateCompletions = false;
 
     plugins = [
       {

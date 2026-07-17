@@ -387,6 +387,8 @@ in {
         "browser.aboutConfig.showWarning" = false;
         "browser.aboutwelcome.enabled" = false;
         "browser.startup.homepage_override.mstone" = "ignore";
+        "browser.startup.page" = 1;
+        "browser.warnOnQuitShortcut" = false;
         "browser.profiles.enabled" = true;
 
         # Zen-specific settings
@@ -395,6 +397,7 @@ in {
         "zen.onboarding.seen" = true;
         "zen.view.compact.hide-toolbar" = false;
         "zen.tabs.show-close-button" = false;
+        "zen.view.sidebar-expanded" = false;
         "layout.css.prefers-color-scheme.content-override" = 2;
 
         # Hide tab close buttons
@@ -484,11 +487,6 @@ in {
     bind ,cg tabopen chatgpt.com
     bind ,cb tabopen codeberg.org/tenyoru?tab=repositories
     bind ,gh tabopen github.com
-    bind ,pm tabopen mail.proton.me
-    bind ,pd tabopen drive.proton.me
-    bind ,pc tabopen calendar.proton.me
-    bind ,pl tabopen lumo.proton.me
-    bind ,pp tabopen pass.proton.me
     bind ,i tabopen inv.nadeko.net
     bind ,tt tabopen track.toggl.com
     bind ,rt tabopen context.reverso.net

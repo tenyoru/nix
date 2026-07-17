@@ -8,15 +8,6 @@
     "/home/Tenyoru/notes/AGENTS.md"
   ],
   "mcp": {
-    "obsidian": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/home/Tenyoru/notes"
-      ]
-    },
     "context7": {
       "type": "local",
       "command": [
@@ -31,14 +22,6 @@
         "npx",
         "-y",
         "@playwright/mcp@latest"
-      ],
-      "timeout": 120000
-    },
-    "nixos": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "mcp-nixos"
       ],
       "timeout": 120000
     },

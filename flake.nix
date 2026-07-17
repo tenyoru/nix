@@ -10,11 +10,13 @@
       "https://noctalia.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://nixpkgs-wayland.cachix.org"
+      "https://nixos-raspberrypi.cachix.org"
     ];
     extra-trusted-public-keys = [
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
   };
 
@@ -34,6 +36,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # ponytail: kept unpinned to nixpkgs on purpose — its kernel/firmware
+    # packages need patches only guaranteed to build against its own pinned nixpkgs
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 
     ayugram-desktop.url = "github:/ayugram-port/ayugram-desktop/release?submodules=1";
 
@@ -63,6 +69,11 @@
 
     cclock.url = "git+https://codeberg.org/tenyoru/cclock";
 
+    googleworkspace-cli = {
+      url = "github:googleworkspace/cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -78,10 +89,9 @@
       flake = true;
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia/legacy-v4";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # No nixpkgs.follows on purpose — binary cache hits require
+    # tracking noctalia's own pinned nixpkgs, per their cachix branch docs
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
   };

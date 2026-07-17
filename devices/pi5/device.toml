@@ -1,0 +1,15 @@
+username = "Tenyoru"
+name = "pi5"
+platform = "aarch64-linux"
+raspberrypi = true
+
+[dotfiles]
+enable = false
+
+[host]
+nix = true
+user = true
+ssh = true
+programs = true
+locale = true
+core-configuration = true

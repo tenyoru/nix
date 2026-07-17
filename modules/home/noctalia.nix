@@ -5,7 +5,7 @@
 }: {
   imports = [inputs.noctalia.homeModules.default];
 
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
     settings = {
       bar = {
@@ -42,6 +42,9 @@
           ];
           right = [
             {
+              type = "avivbintangaringga/nix-monitor:nix-monitor";
+            }
+            {
               id = "Tray";
             }
             {
@@ -62,6 +65,8 @@
           ];
         };
       };
+
+      plugins.enabled = ["avivbintangaringga/nix-monitor"];
 
       colorSchemes.predefinedScheme = "Monochrome";
 

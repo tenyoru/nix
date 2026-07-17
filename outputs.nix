@@ -58,46 +58,75 @@
       extraNixosModules = host.extraNixosModules or [];
       system = hostConfig.platform;
 
+      # ponytail: Pi hosts opt in via device.toml's `raspberrypi = true`.
+      # Their nixosSystem is a drop-in replacement for nixpkgs.lib.nixosSystem
+      # that keeps its own pinned nixpkgs (required for the kernel/firmware
+      # packages to evaluate). That pin is why home-manager (built against
+      # our own newer unstable) can't be evaluated on Pi hosts — so they skip
+      # home-manager entirely and use plain environment.systemPackages instead.
+      isRaspberryPi = host.raspberrypi or false;
+      nixosSystem =
+        if isRaspberryPi
+        then inputs.nixos-raspberrypi.lib.nixosSystem
+        else lib.nixosSystem;
+
       extraModules =
         [
           # Here you can add base modules that should always be included
           "${self}/modules/base.nix"
         ]
         ++ (
-          if builtins.hasAttr "home" host.modules
+          if builtins.hasAttr "home" host.modules && !isRaspberryPi
           then ["${self}/home"]
           else []
         );
+
+      # ponytail: Pi hosts skip home-manager (see hardware.nix — plain
+      # environment.systemPackages instead) and disko (plain fileSystems
+      # matching nixos-raspberrypi's own sd-image labels; deploy by flashing
+      # their installer image once, then `nixos-rebuild switch --target-host`)
+      baseModules =
+        if isRaspberryPi
+        then [inputs.sops-nix.nixosModules.sops]
+        else [
+          inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.disko
+          inputs.sops-nix.nixosModules.sops
+          {home-manager.sharedModules = homeModules;}
+        ];
     in {
       name = host.name or name;
 
-      value = lib.nixosSystem {
-        specialArgs = {
-          inherit system;
-          inherit
-            inputs
-            self
-            hostConfig
-            mylib
-            lib
-            homeModules
-            ;
-        };
-
-        modules = with inputs;
-          [
-            home-manager.nixosModules.home-manager
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
-            {
-              home-manager.sharedModules = homeModules;
-            }
-          ]
-          ++ hostModules
-          ++ hostSecretsModule
-          ++ extraModules
-          ++ extraNixosModules;
-      };
+      value = nixosSystem ({
+          # ponytail: Pi hosts get `specialArgs = inputs // {extras}`, matching
+          # nixos-raspberrypi's own README example verbatim (confirmed by an
+          # isolated sanity-check flake) — a curated subset (what every other
+          # host uses) triggered an infinite recursion in their firmware
+          # overlay for reasons not fully root-caused, but reproducibly fixed
+          # by passing the full `inputs` attrset instead.
+          specialArgs =
+            if isRaspberryPi
+            then inputs // {inherit system hostConfig mylib homeModules;}
+            else {
+              inherit system;
+              inherit
+                inputs
+                self
+                hostConfig
+                mylib
+                lib
+                homeModules
+                ;
+            };
+        }
+        // {
+          modules =
+            baseModules
+            ++ hostModules
+            ++ hostSecretsModule
+            ++ extraModules
+            ++ extraNixosModules;
+        });
     })
     getHosts);
 
