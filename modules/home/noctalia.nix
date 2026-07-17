@@ -157,12 +157,18 @@ in {
             input_path = "${spotifyColorsTemplate}";
             output_path = "${config.home.homeDirectory}/.config/spicetify/noctalia-colors.css";
           };
+          # builtin ghostty template, minus its apply.sh whose
+          # `pkill -SIGUSR2 ghostty` hot-reloads running windows
+          user.ghostty-colors = {
+            input_path = "${inputs.noctalia}/assets/templates/ghostty/ghostty";
+            output_path = "${config.home.homeDirectory}/.config/ghostty/themes/noctalia";
+          };
           user.niri-colors = {
             input_path = "${niriColorsTemplate}";
             output_path = "${config.home.homeDirectory}/.config/niri/noctalia.kdl";
             post_hook = "niri msg action load-config-file";
           };
-          builtin_ids = ["btop" "ghostty" "gtk3" "gtk4" "qt"];
+          builtin_ids = ["btop" "gtk3" "gtk4" "qt"];
           community_ids = [
             "bat"
             "discord"
