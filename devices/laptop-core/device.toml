@@ -98,7 +98,6 @@ zen-browser = true
 tmux = true
 fish = true
 neovim = true
-mako = true
 ghostty = true
 niri = true
 noctalia = true

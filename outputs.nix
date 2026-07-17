@@ -58,7 +58,7 @@
       extraNixosModules = host.extraNixosModules or [];
       system = hostConfig.platform;
 
-      # ponytail: Pi hosts opt in via device.toml's `raspberrypi = true`.
+      # Pi hosts opt in via device.toml's `raspberrypi = true`.
       # Their nixosSystem is a drop-in replacement for nixpkgs.lib.nixosSystem
       # that keeps its own pinned nixpkgs (required for the kernel/firmware
       # packages to evaluate). That pin is why home-manager (built against
@@ -81,7 +81,7 @@
           else []
         );
 
-      # ponytail: Pi hosts skip home-manager (see hardware.nix — plain
+      # Pi hosts skip home-manager (see hardware.nix — plain
       # environment.systemPackages instead) and disko (plain fileSystems
       # matching nixos-raspberrypi's own sd-image labels; deploy by flashing
       # their installer image once, then `nixos-rebuild switch --target-host`)
@@ -98,7 +98,7 @@
       name = host.name or name;
 
       value = nixosSystem ({
-          # ponytail: Pi hosts get `specialArgs = inputs // {extras}`, matching
+          # Pi hosts get `specialArgs = inputs // {extras}`, matching
           # nixos-raspberrypi's own README example verbatim (confirmed by an
           # isolated sanity-check flake) — a curated subset (what every other
           # host uses) triggered an infinite recursion in their firmware

@@ -403,7 +403,8 @@ in {
         # Hide tab close buttons
         "browser.tabs.closeButtons" = 2;
 
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = false;
+        # required for noctalia's zen template (userChrome/userContent css)
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "browser.compactmode.show" = true;
         "browser.privateWindowSeparation.enabled" = false;
 
@@ -478,6 +479,22 @@ in {
       };
     };
   };
+
+  # Seed noctalia theme imports into every zen profile's chrome dir.
+  # Plain files, not home.file symlinks: noctalia's zen template apply.sh
+  # rewrites them with sed -i, which would clobber store symlinks.
+  home.activation.zenNoctaliaChrome = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    for profile in "$HOME/.config/zen"/*/prefs.js; do
+      [ -f "$profile" ] || continue
+      chrome="$(dirname "$profile")/chrome"
+      run mkdir -p "$chrome"
+      for kind in Chrome Content; do
+        f="$chrome/user$kind.css"
+        line="@import \"$HOME/.cache/noctalia/zen-browser/zen-user$kind.css\";"
+        grep -Fqs "$line" "$f" || run sh -c "printf '%s\n' '$line' >> '$f'"
+      done
+    done
+  '';
 
   # Tridactyl configuration
   # move to config dir and make a link

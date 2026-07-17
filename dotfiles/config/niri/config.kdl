@@ -10,7 +10,6 @@
 
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets,pkcs11,ssh"
 spawn-at-startup "foot --server"
-spawn-at-startup "mako"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "noctalia"
 
@@ -288,7 +287,6 @@ layout {
         color "#0007"
     }
     tab-indicator {
-        off
         hide-when-single-tab
         place-within-column
         gap 5
@@ -297,9 +295,7 @@ layout {
         position "right"
         gaps-between-tabs 2
         corner-radius 8
-        active-color "#b8bb26"
-        inactive-color "#504945"
-        urgent-color "#fb4934"
+        // colors come from the noctalia render (included noctalia.kdl)
         // active-gradient from="#80c8ff" to="#bbddff" angle=45
         // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
         // urgent-gradient from="#800" to="#a33" angle=45

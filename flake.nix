@@ -37,7 +37,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # ponytail: kept unpinned to nixpkgs on purpose — its kernel/firmware
+    # kept unpinned to nixpkgs on purpose — its kernel/firmware
     # packages need patches only guaranteed to build against its own pinned nixpkgs
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 

@@ -10,13 +10,13 @@
 in {
   documentation.nixos.enable = false;
   nixpkgs.config.allowUnfree = true;
-  # ponytail: these overlays are x86-desktop-oriented (Steam mod, claude-code
+  # these overlays are x86-desktop-oriented (Steam mod, claude-code
   # linux-x64 binary) and collide with nixos-raspberrypi's own overlay stack
   # (infinite recursion) — skip them on Pi hosts
   nixpkgs.overlays = lib.optionals (!(hostConfig.raspberrypi or false)) [
     inputs.millennium.overlays.default
     inputs.zig-overlay.overlays.default
-    # ponytail: pins claude-code newer than nixpkgs; bump version+hash to update
+    # pins claude-code newer than nixpkgs; bump version+hash to update
     (final: prev: {
       claude-code = prev.claude-code.overrideAttrs (old: rec {
         version = "2.1.201";
