@@ -145,9 +145,14 @@ in {
         # the system builds from the nixpkgs-unstable channel (inputs.unstable),
         # not the nixos-unstable branch the plugin defaults to
         branch = "nixpkgs-unstable";
+        show_update_available_notification = false;
         update_command = "cd ${config.home.homeDirectory}/.nixos && just update-switch";
         clean_command = "cd ${config.home.homeDirectory}/.nixos && just gc";
       };
+
+      # renders the blurred overview wallpaper layer that the
+      # `^noctalia-backdrop` layer-rule in niri/config.kdl places in the backdrop
+      backdrop.enabled = true;
 
       theme = {
         source = "wallpaper";
