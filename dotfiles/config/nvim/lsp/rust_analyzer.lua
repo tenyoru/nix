@@ -9,7 +9,8 @@ return {
       rustfmt = {
         extraArgs = { "+nightly" },
       },
-      checkOnSave = {
+      checkOnSave = true,
+      check = {
         command = "clippy",
         extraArgs = { "--no-deps" },
       },

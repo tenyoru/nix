@@ -20,6 +20,7 @@ chezmoi = true
 "xwayland-satellite" = true
 wtype = true
 ffmpeg = true
+guitarix = true
 devenv = true
 gnumake = false
 unzip = true
@@ -50,7 +51,6 @@ cheese = true
 "bitwarden-cli" = true
 
 [stablePackages]
-guitarix = true
 iamb = true
 "bambu-studio" = true
 
