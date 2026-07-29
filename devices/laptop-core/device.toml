@@ -49,6 +49,7 @@ cloudflared = true
 libresprite = true
 cheese = true
 "bitwarden-cli" = true
+"telegram-desktop" = true
 
 [stablePackages]
 iamb = true
@@ -101,6 +102,6 @@ chawan = true
 discord = false
 jujutsu = false
 darkman = false
-ayugram = true
+ayugram = false
 spotify = true
 gws = true

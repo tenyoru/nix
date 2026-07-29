@@ -2,7 +2,7 @@
   "permissions": {
     "defaultMode": "default"
   },
-  "model": "opus",
+  "model": "sonnet",
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
