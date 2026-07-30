@@ -24,6 +24,8 @@
       # "systemd.mask=dev-tpmrm0.device"
       "apm=power_off"
       "amdgpu.dc=1"
+      "amdgpu.dcdebugmask=0x10"
+      "mem_sleep_default=deep"
       "quiet"
       "splash"
       "boot.shell_on_fail"
