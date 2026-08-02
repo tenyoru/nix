@@ -22,10 +22,6 @@
         name = "tide";
         src = pkgs.fishPlugins.tide.src;
       }
-      {
-        name = "gruvbox";
-        src = pkgs.fishPlugins.gruvbox.src;
-      }
     ];
 
     shellAliases = {
@@ -46,7 +42,6 @@
       bind -M default Y fish_clipboard_copy
       bind -M default p fish_clipboard_paste
       bind -M visual y fish_clipboard_copy
-      theme_gruvbox dark hard
     '';
 
     shellInit = ''

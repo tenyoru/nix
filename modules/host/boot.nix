@@ -25,7 +25,7 @@
       "apm=power_off"
       "amdgpu.dc=1"
       "amdgpu.dcdebugmask=0x10"
-      "mem_sleep_default=deep"
+      "amdgpu.aspm=0" # possible fix for black screen/hang on resume from s2idle
       "quiet"
       "splash"
       "boot.shell_on_fail"

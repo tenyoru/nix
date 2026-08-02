@@ -76,6 +76,13 @@
         --spice-rgb-radio-btn-active: {{colors.on_tertiary_container.default.rgb_csv}};
     }
   '';
+  tmuxColorsTemplate = pkgs.writeText "tmux-colors.conf" ''
+    set -g status-style "bg={{colors.surface.default.hex}},fg={{colors.on_surface.default.hex}}"
+    set -g status-left "#[fg={{colors.primary.default.hex}},bold] #S #[default]"
+    set -g status-right "#[fg={{colors.on_surface_variant.default.hex}}]#{b:pane_current_path} "
+    set -g window-status-format "#[fg={{colors.on_surface_variant.default.hex}}] #I:#W "
+    set -g window-status-current-format "#[fg={{colors.primary.default.hex}},bold] #I:#W "
+  '';
   # replaces the builtin niri template: same render, but the tab-indicator
   # inactive color maps to a dark surface tone instead of a near-identical
   # accent shade, so active/inactive tabs are distinguishable
@@ -162,16 +169,23 @@ in {
             input_path = "${spotifyColorsTemplate}";
             output_path = "${config.home.homeDirectory}/.config/spicetify/noctalia-colors.css";
           };
-          # builtin ghostty template, minus its apply.sh whose
-          # `pkill -SIGUSR2 ghostty` hot-reloads running windows
+          # builtin ghostty template; post_hook hot-reloads running windows
+          # the same way the builtin apply.sh does, minus its config-file
+          # mutation (theme = noctalia is already set statically)
           user.ghostty-colors = {
             input_path = "${inputs.noctalia}/assets/templates/ghostty/ghostty";
             output_path = "${config.home.homeDirectory}/.config/ghostty/themes/noctalia";
+            post_hook = "pgrep -f ghostty >/dev/null && pkill -SIGUSR2 ghostty || true";
           };
           user.niri-colors = {
             input_path = "${niriColorsTemplate}";
             output_path = "${config.home.homeDirectory}/.config/niri/noctalia.kdl";
             post_hook = "niri msg action load-config-file";
+          };
+          user.tmux-colors = {
+            input_path = "${tmuxColorsTemplate}";
+            output_path = "${config.home.homeDirectory}/.config/tmux/noctalia.conf";
+            post_hook = "tmux source-file ${config.home.homeDirectory}/.config/tmux/tmux.conf >/dev/null 2>&1 || true";
           };
           builtin_ids = ["btop" "gtk3" "gtk4" "qt"];
           community_ids = [
