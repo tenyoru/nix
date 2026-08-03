@@ -79,7 +79,7 @@
   tmuxColorsTemplate = pkgs.writeText "tmux-colors.conf" ''
     set -g status-style "bg={{colors.surface.default.hex}},fg={{colors.on_surface.default.hex}}"
     set -g status-left "#[fg={{colors.primary.default.hex}},bold] #S #[default]"
-    set -g status-right "#[fg={{colors.on_surface_variant.default.hex}}]#{b:pane_current_path} "
+    set -g status-right "#[fg={{colors.on_surface_variant.default.hex}}]#{s|$HOME|~|:pane_current_path} "
     set -g window-status-format "#[fg={{colors.on_surface_variant.default.hex}}] #I:#W "
     set -g window-status-current-format "#[fg={{colors.primary.default.hex}},bold] #I:#W "
   '';
