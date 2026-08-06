@@ -9,6 +9,9 @@ in {
   home.packages = with pkgs; [
     timewarrior
     markdown-oxide
+    git-crypt
+    mermaid-cli
+    chafa
   ];
 
   programs.taskwarrior = {
