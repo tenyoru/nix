@@ -4,6 +4,7 @@
   ...
 }: let
   vault = "${config.home.homeDirectory}/notes";
+  taskDir = "${vault}/.task";
 in {
   home.packages = with pkgs; [
     timewarrior
@@ -13,12 +14,11 @@ in {
   programs.taskwarrior = {
     enable = true;
     package = pkgs.taskwarrior3;
-    dataLocation = "${vault}/.task";
   };
 
   home.sessionVariables = {
     NOTE_VAULT = vault;
-    TIMEWARRIORDB = "${vault}/.timewarrior";
+    TIMEWARRIORDB = "${taskDir}/timewarrior";
   };
 
   systemd.user.services.notes-sync = {
@@ -26,7 +26,11 @@ in {
     Service = {
       Type = "oneshot";
       WorkingDirectory = vault;
-      ExecStart = "${pkgs.just}/bin/just sync";
+      ExecStart = pkgs.writeShellScript "notes-sync" ''
+        mkdir -p ${taskDir}
+        ${pkgs.taskwarrior3}/bin/task export > ${taskDir}/tasks.json
+        ${pkgs.just}/bin/just sync
+      '';
     };
   };
 
