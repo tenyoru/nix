@@ -41,10 +41,6 @@ in {
     # Zig
     zls
 
-    # Markdown
-    markdown-oxide
-    marksman
-
     # LaTeX
     texlab
 

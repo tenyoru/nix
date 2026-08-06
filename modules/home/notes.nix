@@ -1,0 +1,41 @@
+{
+  config,
+  pkgs,
+  ...
+}: let
+  vault = "${config.home.homeDirectory}/notes";
+in {
+  home.packages = with pkgs; [
+    timewarrior
+    markdown-oxide
+  ];
+
+  programs.taskwarrior = {
+    enable = true;
+    package = pkgs.taskwarrior3;
+    dataLocation = "${vault}/.task";
+  };
+
+  home.sessionVariables = {
+    NOTE_VAULT = vault;
+    TIMEWARRIORDB = "${vault}/.timewarrior";
+  };
+
+  systemd.user.services.notes-sync = {
+    Unit.Description = "Sync notes vault git repo";
+    Service = {
+      Type = "oneshot";
+      WorkingDirectory = vault;
+      ExecStart = "${pkgs.just}/bin/just sync";
+    };
+  };
+
+  systemd.user.timers.notes-sync = {
+    Unit.Description = "Hourly notes vault sync";
+    Timer = {
+      OnCalendar = "hourly";
+      Persistent = true;
+    };
+    Install.WantedBy = ["timers.target"];
+  };
+}
