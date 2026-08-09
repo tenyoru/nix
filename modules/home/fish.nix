@@ -44,6 +44,19 @@
       bind -M visual y fish_clipboard_copy
     '';
 
+    functions = {
+      chafa = {
+        wraps = "chafa";
+        body = ''
+          if test -n "$TMUX"
+            command chafa --format=kitty --passthrough=tmux $argv
+          else
+            command chafa $argv
+          end
+        '';
+      };
+    };
+
     shellInit = ''
       if test -f /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.fish
         set -e __HM_SESS_VARS_SOURCED

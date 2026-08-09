@@ -13,6 +13,7 @@ in {
         email = gitConfig.userEmail;
       };
       core.editor = "nvim";
+      init.defaultBranch = "main";
     };
   };
 }
