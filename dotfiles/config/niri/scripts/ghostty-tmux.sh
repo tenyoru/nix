@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Launch ghostty; if tmux has no running sessions, seed the default ones first.
 
+SESSION="${1:-main}"
+
 if ! tmux has-session 2>/dev/null; then
     tmux new-session -d -s main -c ~
 
@@ -13,4 +15,4 @@ if ! tmux has-session 2>/dev/null; then
     tmux new-window -t notes -c ~/notes -n shell
 fi
 
-exec ghostty -e tmux attach -t main
+exec ghostty -e tmux attach -t "$SESSION"

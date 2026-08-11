@@ -681,7 +681,7 @@ binds {
 
     // Focus or launch specific applications
     Mod+Shift+T {
-      spawn "bash" "-c" "$NIRI_RUN_SCRIPT com.mitchellh.ghostty /home/Tenyoru/.nixos/dotfiles/config/niri/scripts/ghostty-tmux.sh";
+      spawn "bash" "-c" "/home/Tenyoru/.nixos/dotfiles/config/niri/scripts/ghostty-focus.sh main";
     }
 
     Mod+Shift+B {
@@ -693,8 +693,8 @@ binds {
       spawn "bash" "-c" "voice-clip";
     }
 
-    Mod+Shift+O {
-      spawn "bash" "-c" "$NIRI_RUN_SCRIPT obsidian obsidian";
+    Mod+Shift+N {
+      spawn "bash" "-c" "/home/Tenyoru/.nixos/dotfiles/config/niri/scripts/ghostty-focus.sh notes notes";
     }
 
     Mod+Shift+S {
