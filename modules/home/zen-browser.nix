@@ -208,7 +208,7 @@ in {
         History = false;
         Sessions = false;
         SiteSettings = false;
-        OfflineApps = true;
+        OfflineApps = false;
         Locked = true;
       };
 

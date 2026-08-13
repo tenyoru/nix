@@ -79,7 +79,7 @@ services = true
 syncthing = false
 "core-configuration" = true
 eid = true
-steam = true
+steam = false
 power = true
 [home]
 opencode = true

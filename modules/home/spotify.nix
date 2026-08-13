@@ -18,10 +18,10 @@ in {
     enable = true;
     enabledExtensions = with spicePkgs.extensions; [
       adblock
-      hidePodcasts
       shuffle
       playlistIcons
       historyShortcut
+      keyboardShortcut
     ];
 
     theme = if noctaliaEnabled then spicePkgs.themes.comfy else spicePkgs.themes.text;
