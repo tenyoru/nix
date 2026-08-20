@@ -18,6 +18,13 @@
       };
     };
 
+    # Resume from the /.swapfile on hibernate. systemd's automatic swapfile
+    # resume detection was unreliable here (journal showed repeated
+    # "Unable to resume ... continuing boot process" after every real
+    # hibernation attempt), so pin device + offset explicitly.
+    # Recompute offset with: filefrag -v /.swapfile | awk '$1=="0:" {print $4}' (strip the trailing '..')
+    resumeDevice = "/dev/disk/by-uuid/f3f670ff-b051-4524-a50d-80cea5349557";
+
     consoleLogLevel = 0;
     kernelParams = [
       # "systemd.mask=systemd-vconsole-setup.service"
@@ -26,6 +33,7 @@
       "amdgpu.dc=1"
       "amdgpu.dcdebugmask=0x10"
       "amdgpu.aspm=0" # possible fix for black screen/hang on resume from s2idle
+      "resume_offset=882688" # physical offset of /.swapfile, confirmed by systemd-hibernate-resume in journal
       "quiet"
       "splash"
       "boot.shell_on_fail"

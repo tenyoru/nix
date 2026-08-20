@@ -87,6 +87,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
     --   client.server_capabilities.semanticTokensProvider = nil
     -- end
 
+    -- zls semantic tokens repaint over the tonsky-style treesitter
+    -- highlight overrides in plugins/treesitter.lua; disable them so
+    -- those overrides are actually visible
+    if client and client.name == 'zls' then
+      client.server_capabilities.semanticTokensProvider = nil
+    end
+
     -- Native LSP completion (used instead of blink)
     if client and client:supports_method('textDocument/completion') then
       vim.lsp.completion.enable(true, client.id, ev.buf, { --[[ autotrigger = true ]] })
