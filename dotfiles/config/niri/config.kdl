@@ -12,6 +12,7 @@ spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets,pkcs11,s
 spawn-at-startup "foot --server"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "noctalia"
+spawn-at-startup "bash" "-c" "$NIRI_SCRIPTS/task-gate.sh"
 
 environment {
     WLR_NO_HARDWARE_CURSORS "1"
