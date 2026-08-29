@@ -372,6 +372,14 @@ window-rule {
     open-floating true
 }
 
+// Zen Browser restores its last fullscreen state on launch, which opens it
+// blank/broken in niri. Force it to open as a normal maximized window.
+window-rule {
+    match app-id="zen-beta"
+    open-fullscreen false
+    open-maximized true
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
@@ -710,4 +718,3 @@ binds {
     }
 }
 
-include "noctalia.kdl"

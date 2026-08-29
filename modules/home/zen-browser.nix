@@ -93,6 +93,15 @@ in {
         Cryptomining = true;
         Fingerprinting = true;
         EmailTracking = true;
+        # Total Cookie Protection partitions cross-site storage, which breaks
+        # login persistence on sites using third-party auth/payment widgets.
+        Exceptions = [
+          "https://amazon.com"
+          "https://pinterest.com"
+          "https://linkedin.com"
+          "https://google.com"
+          "https://x.com"
+        ];
       };
 
       EncryptedMediaExtensions = {

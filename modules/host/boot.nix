@@ -33,6 +33,11 @@
       "amdgpu.dc=1"
       "amdgpu.dcdebugmask=0x10"
       "amdgpu.aspm=0" # possible fix for black screen/hang on resume from s2idle
+      # GPU is Rembrandt (0x1002:0x15bf), which has a known firmware bug where
+      # GFXOFF entered right before suspend never signals back on s2idle resume
+      # (journal: "SMU is resumed successfully!" just never appears, machine
+      # hangs and needs a hard power-cycle). Disable PP_GFXOFF_MASK (bit 15).
+      "amdgpu.ppfeaturemask=0xffff7fff"
       "resume_offset=882688" # physical offset of /.swapfile, confirmed by systemd-hibernate-resume in journal
       "quiet"
       "splash"
