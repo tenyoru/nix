@@ -502,6 +502,9 @@ in {
         line="@import \"$HOME/.cache/noctalia/zen-browser/zen-user$kind.css\";"
         grep -Fqs "$line" "$f" || run sh -c "printf '%s\n' '$line' >> '$f'"
       done
+      # Hide the close button on the New Tab page's customize/wallpaper panel.
+      hide_rule=".close-button-wrapper { display: none !important; }"
+      grep -Fqs "$hide_rule" "$chrome/userContent.css" || run sh -c "printf '%s\n' '$hide_rule' >> '$chrome/userContent.css'"
     done
   '';
 
