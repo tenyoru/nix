@@ -1,6 +1,6 @@
 font-family = Fira Code
 font-size = 24
-theme = noctalia
+config-file = theme.conf
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 adjust-cell-height = 35%
