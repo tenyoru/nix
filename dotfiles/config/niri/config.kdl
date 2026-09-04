@@ -436,6 +436,7 @@ binds {
     Mod+P { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
     Mod+B { spawn "noctalia" "msg" "bar-toggle"; }
     Super+Alt+L { spawn "hyprlock"; }
+    Mod+Alt+C { spawn "bash" "-c" "pgrep -x .cclock-wrapped >/dev/null && pkill -x .cclock-wrapped || cclock"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
