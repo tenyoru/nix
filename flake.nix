@@ -65,7 +65,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    cclock.url = "git+https://codeberg.org/tenyoru/cclock";
+    cclock.url = "github:tenyoru/cclock/v0.1.1";
 
     googleworkspace-cli = {
       url = "github:googleworkspace/cli";
