@@ -48,6 +48,7 @@ fluffychat = true
 cloudflared = true
 libresprite = true
 cheese = true
+krita = true
 "bitwarden-cli" = true
 "telegram-desktop" = true
 

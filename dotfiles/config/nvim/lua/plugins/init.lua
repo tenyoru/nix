@@ -23,6 +23,11 @@ for _, plugin in ipairs(p) do
   require("plugins." .. plugin)
 end
 
+-- local dev plugins
+vim.opt.rtp:prepend(vim.fn.expand("~/dev/pair"))
+vim.opt.rtp:prepend(vim.fn.expand("~/dev/pair-opencode"))
+require("pair").setup({ provider = "opencode" })
+
 vim.api.nvim_create_user_command("PackUpdate", function()
   vim.pack.update(nil, { force = true })
 end, { desc = "Update all plugins" })

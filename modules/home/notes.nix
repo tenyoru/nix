@@ -4,7 +4,7 @@
   ...
 }: let
   vault = "${config.home.homeDirectory}/notes";
-  taskDir = "${vault}/.task";
+  taskDir = "${config.home.homeDirectory}/.local/share/notes-task";
 in {
   home.packages = with pkgs; [
     timewarrior

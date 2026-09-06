@@ -7,23 +7,9 @@
   "enabled_providers": [
     "anthropic",
     "openai",
-    "ollama",
     "xai"
   ],
-  "provider": {
-    "ollama": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
-      },
-      "models": {
-        "devstral:24b": {
-          "name": "devstral:24b"
-        }
-      }
-    }
-  },
+  "provider": {},
   "instructions": [
     "/home/Tenyoru/notes/AGENTS.md"
   ],
