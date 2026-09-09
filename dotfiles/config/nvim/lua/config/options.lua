@@ -33,7 +33,7 @@ o.signcolumn = "no"
 o.cursorline = true
 -- the -Cursor suffix binds the shape to the Cursor highlight group, which is
 -- what lets autocmds.lua recolour it when the buffer has unsaved changes
-o.guicursor = "n:block-Cursor,i-ci-c:ver50-Cursor,r-v-cr:hor50-Cursor,a:blinkon0"
+o.guicursor = "n:block-Cursor,i-ci-c:ver25-Cursor,r-v-cr:hor50-Cursor,a:blinkon0"
 o.pumblend = 15
 o.winblend = 5
 o.pumheight = 10
