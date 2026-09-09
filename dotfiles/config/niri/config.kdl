@@ -8,6 +8,10 @@
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 
 
+hotkey-overlay {
+    skip-at-startup
+}
+
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets,pkcs11,ssh"
 spawn-at-startup "foot --server"
 spawn-at-startup "xwayland-satellite"
