@@ -4,6 +4,10 @@ config-file = theme.conf
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 adjust-cell-height = 35%
+# DejaVu Sans Mono puts the underline 0.5px under the baseline, so every
+# descender (_ g p y { } , ; ( )) paints over it and breaks the rule.
+# Deepest ASCII descender is `_` at 5.7px @ size 24 -> push the rule past it.
+adjust-underline-position = 6
 # background-opacity = 0.96
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 1
@@ -11,6 +15,7 @@ window-padding-balance = true
 window-save-state = always
 macos-titlebar-style = transparent
 window-colorspace = "display-p3"
+custom-shader-animation = false
 # background = 1C2021
 # foreground = d4be98
 # keybindings
