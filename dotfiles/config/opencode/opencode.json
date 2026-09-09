@@ -10,6 +10,10 @@
     "xai"
   ],
   "provider": {},
+  "permission": {
+    "*": "allow",
+    "doom_loop": "allow"
+  },
   "instructions": [
     "/home/Tenyoru/notes/AGENTS.md"
   ],
