@@ -24,9 +24,30 @@ for _, m in ipairs({ "options", "keymaps", "autocmds", "disable" }) do
 end
 require("plugins")
 
--- Paper. Do not require('matugen') after this: that file is noctalia's
--- wallpaper palette and will replace this colorscheme on startup and on SIGUSR1.
-vim.cmd([[colorscheme base16-gruvbox-light-soft]])
+local function paper()
+  vim.cmd([[colorscheme base16-gruvbox-light-soft]])
+  -- colorscheme runs hi clear; re-apply after in case ColorScheme autocmds
+  -- from autocmds.lua already ran against the previous (or default) palette
+  pcall(vim.api.nvim_exec_autocmds, "ColorScheme", { modeline = false })
+end
+paper()
+
+-- noctalia's neovim template appends require('matugen') and SIGUSR1 on
+-- wallpaper change. VimEnter runs after that append: drop their signal
+-- handler and put paper back. Do not require matugen here.
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    if _G.__matugen_signal then
+      pcall(function()
+        _G.__matugen_signal:stop()
+        _G.__matugen_signal:close()
+      end)
+      _G.__matugen_signal = nil
+    end
+    paper()
+  end,
+})
 
 vim.lsp.enable({
   "basedpyright",

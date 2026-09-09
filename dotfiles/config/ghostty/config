@@ -1,4 +1,6 @@
-font-family = Fira Code
+font-family = JetBrains Mono
+font-style = Medium
+font-style-bold = Bold
 font-size = 24
 config-file = theme.conf
 shell-integration-features = no-cursor,sudo,no-title

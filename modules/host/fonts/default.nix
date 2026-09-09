@@ -5,8 +5,8 @@
 
     packages = with pkgs; [
       nerd-fonts.iosevka-term
-      # nerd-fonts.iosevka
-      #nerd-fonts.fira-code
+      jetbrains-mono
+      monocraft
       liberation_ttf
     ];
 

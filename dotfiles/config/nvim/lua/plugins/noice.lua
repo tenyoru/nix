@@ -1,10 +1,20 @@
 require("noice").setup({
+  cmdline = {
+    format = {
+      cmdline = { icon = ">" },
+      -- search_down = { icon = "" },
+      -- search_up = { icon = "" },
+      -- filter = { icon = "" },
+      -- lua = { icon = "" },
+      help = { icon = "?" },
+    },
+  },
   views = {
     cmdline_popup = {
       position = { row = "50%", col = "50%" },
       size = { width = 60, height = "auto" },
       border = {
-        style = "rounded",
+        style = "single",
         padding = { 0, 1 },
         text = { top = "" },
       },
