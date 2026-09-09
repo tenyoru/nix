@@ -24,14 +24,9 @@ for _, m in ipairs({ "options", "keymaps", "autocmds", "disable" }) do
 end
 require("plugins")
 
--- noctalia renders lua/matugen.lua from the active color scheme
--- (community template "neovim"); jellybeans until the first render
-local has_matugen, matugen = pcall(require, 'matugen')
-if has_matugen then
-  matugen.setup()
-else
-  vim.cmd([[colorscheme jellybeans]])
-end
+-- Paper. Do not require('matugen') after this: that file is noctalia's
+-- wallpaper palette and will replace this colorscheme on startup and on SIGUSR1.
+vim.cmd([[colorscheme base16-gruvbox-light-soft]])
 
 vim.lsp.enable({
   "basedpyright",
@@ -46,4 +41,3 @@ vim.lsp.enable({
   "tinymist",
   "zls",
 })
-

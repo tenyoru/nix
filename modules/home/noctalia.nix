@@ -192,7 +192,6 @@ in {
             "bat"
             "discord"
             "fuzzel"
-            "neovim"
             "obs"
             "obsidian"
             "opencode"

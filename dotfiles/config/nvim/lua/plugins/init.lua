@@ -2,6 +2,9 @@ local plugins = {
   "https://github.com/WTFox/jellybeans.nvim",
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/nvim-mini/mini.icons",
+  "https://github.com/nvim-mini/mini.indentscope",
+  "https://github.com/MunifTanjim/nui.nvim",
+  "https://github.com/folke/noice.nvim",
   "https://github.com/stevearc/oil.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
@@ -11,7 +14,10 @@ local plugins = {
 vim.pack.add(plugins)
 
 local p = {
+  "cursor",
   "fzf",
+  "indentscope",
+  "noice",
   "oil",
   "statuscolumn",
   "tabline",

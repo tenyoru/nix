@@ -12,7 +12,8 @@ o.cmdheight = 0
 o.winborder = 'shadow'
 o.autocomplete = false
 o.completeopt = { "menu", "menuone", "noselect" }
-o.laststatus = 3
+o.laststatus = 0
+o.statusline = "%{repeat('─',winwidth('.'))}"
 o.list = true
 o.exrc = true -- auto-load .nvim.lua from project directory
 vim.o.secure = false -- disable trust checking
@@ -22,7 +23,6 @@ o.listchars = {
   lead = " ",
   tab = "> ",
   trail = "-",
-  eol = " ",
 }
 
 o.conceallevel = 2
@@ -31,7 +31,9 @@ o.number = true
 o.relativenumber = true
 o.signcolumn = "no"
 o.cursorline = true
-o.guicursor = "n:block,i-ci-c:ver25,r-v-cr:hor50,a:blinkon0"
+-- the -Cursor suffix binds the shape to the Cursor highlight group, which is
+-- what lets autocmds.lua recolour it when the buffer has unsaved changes
+o.guicursor = "n:block-Cursor,i-ci-c:ver25-Cursor,r-v-cr:hor50-Cursor,a:blinkon0"
 o.pumblend = 15
 o.winblend = 5
 o.pumheight = 10
