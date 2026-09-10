@@ -81,7 +81,8 @@ local km = {
 
   -- LSP
   {"n", "gd", function() vim.lsp.buf.definition() end},
-  {"n", "<leader>au", function()
+  {"n", "gs", function() vim.lsp.buf.signature_help() end, { desc = "LSP signature" }},
+  {"n", "<leader>ih", function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
   end, { desc = "Toggle LSP inlay hints" }},
 

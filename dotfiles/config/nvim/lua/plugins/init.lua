@@ -5,6 +5,7 @@ local plugins = {
   "https://github.com/nvim-mini/mini.indentscope",
   "https://github.com/MunifTanjim/nui.nvim",
   "https://github.com/folke/noice.nvim",
+  "https://github.com/shortcuts/no-neck-pain.nvim",
   "https://github.com/stevearc/oil.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
@@ -15,9 +16,11 @@ vim.pack.add(plugins)
 
 local p = {
   "cursor",
+  "notebook",
   "fzf",
   "indentscope",
   "noice",
+  "zen",
   "oil",
   "statuscolumn",
   "tabline",

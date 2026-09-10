@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 -- structure, where a scope line is just noise
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("indentscope_disable", { clear = true }),
-  pattern = { "help", "man", "oil", "qf", "checkhealth" },
+  pattern = { "help", "man", "oil", "qf", "checkhealth", "nnp-pad" },
   callback = function()
     vim.b.miniindentscope_disable = true
   end,

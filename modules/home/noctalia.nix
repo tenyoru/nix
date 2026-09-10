@@ -123,6 +123,79 @@
         }
     }
   '';
+  opencodeColorsTemplate = pkgs.writeText "opencode-matugen.json" ''
+    {
+      "$schema": "https://opencode.ai/theme.json",
+      "defs": {
+        "primary": "{{colors.primary.default.hex}}",
+        "on_primary": "{{colors.on_primary.default.hex}}",
+        "secondary": "{{colors.secondary.default.hex}}",
+        "on_secondary": "{{colors.on_secondary.default.hex}}",
+        "surface": "{{colors.surface.default.hex}}",
+        "on_surface": "{{colors.on_surface.default.hex}}",
+        "surface_variant": "{{colors.surface_variant.default.hex}}",
+        "on_surface_variant": "{{colors.on_surface_variant.default.hex}}",
+        "background": "{{colors.surface.default.hex}}",
+        "on_background": "{{colors.on_surface.default.hex}}",
+        "error": "{{colors.error.default.hex}}",
+        "on_error": "{{colors.on_error.default.hex}}",
+        "outline": "{{colors.outline.default.hex}}",
+        "outline_variant": "{{colors.outline_variant.default.hex}}"
+      },
+      "theme": {
+        "primary": { "dark": "primary", "light": "primary" },
+        "secondary": { "dark": "secondary", "light": "secondary" },
+        "accent": { "dark": "primary", "light": "primary" },
+        "error": { "dark": "error", "light": "error" },
+        "warning": { "dark": "secondary", "light": "secondary" },
+        "success": { "dark": "secondary", "light": "secondary" },
+        "info": { "dark": "primary", "light": "primary" },
+        "text": { "dark": "on_surface", "light": "on_surface" },
+        "textMuted": { "dark": "on_surface_variant", "light": "on_surface_variant" },
+        "background": { "dark": "background", "light": "background" },
+        "backgroundPanel": { "dark": "surface_variant", "light": "surface_variant" },
+        "backgroundElement": { "dark": "surface_variant", "light": "surface_variant" },
+        "border": { "dark": "outline_variant", "light": "outline_variant" },
+        "borderActive": { "dark": "outline", "light": "outline" },
+        "borderSubtle": { "dark": "outline_variant", "light": "outline_variant" },
+        "diffAdded": { "dark": "secondary", "light": "secondary" },
+        "diffRemoved": { "dark": "error", "light": "error" },
+        "diffContext": { "dark": "surface_variant", "light": "surface_variant" },
+        "diffHunkHeader": { "dark": "surface_variant", "light": "surface_variant" },
+        "diffHighlightAdded": { "dark": "secondary", "light": "secondary" },
+        "diffHighlightRemoved": { "dark": "error", "light": "error" },
+        "diffAddedBg": { "dark": "surface_variant", "light": "surface_variant" },
+        "diffRemovedBg": { "dark": "surface_variant", "light": "surface_variant" },
+        "diffContextBg": { "dark": "surface_variant", "light": "surface_variant" },
+        "diffLineNumber": { "dark": "on_surface_variant", "light": "on_surface_variant" },
+        "diffAddedLineNumberBg": { "dark": "surface_variant", "light": "surface_variant" },
+        "diffRemovedLineNumberBg": { "dark": "surface_variant", "light": "surface_variant" },
+        "markdownText": { "dark": "on_surface", "light": "on_surface" },
+        "markdownHeading": { "dark": "primary", "light": "primary" },
+        "markdownLink": { "dark": "primary", "light": "primary" },
+        "markdownLinkText": { "dark": "secondary", "light": "secondary" },
+        "markdownCode": { "dark": "secondary", "light": "secondary" },
+        "markdownBlockQuote": { "dark": "surface_variant", "light": "surface_variant" },
+        "markdownEmph": { "dark": "secondary", "light": "secondary" },
+        "markdownStrong": { "dark": "primary", "light": "primary" },
+        "markdownHorizontalRule": { "dark": "surface_variant", "light": "surface_variant" },
+        "markdownListItem": { "dark": "primary", "light": "primary" },
+        "markdownListEnumeration": { "dark": "secondary", "light": "secondary" },
+        "markdownImage": { "dark": "primary", "light": "primary" },
+        "markdownImageText": { "dark": "secondary", "light": "secondary" },
+        "markdownCodeBlock": { "dark": "on_surface", "light": "on_surface" },
+        "syntaxComment": { "dark": "on_surface_variant", "light": "on_surface_variant" },
+        "syntaxKeyword": { "dark": "primary", "light": "primary" },
+        "syntaxFunction": { "dark": "secondary", "light": "secondary" },
+        "syntaxVariable": { "dark": "on_surface", "light": "on_surface" },
+        "syntaxString": { "dark": "secondary", "light": "secondary" },
+        "syntaxNumber": { "dark": "secondary", "light": "secondary" },
+        "syntaxType": { "dark": "primary", "light": "primary" },
+        "syntaxOperator": { "dark": "on_surface", "light": "on_surface" },
+        "syntaxPunctuation": { "dark": "on_surface_variant", "light": "on_surface_variant" }
+      }
+    }
+  '';
 in {
   imports = [inputs.noctalia.homeModules.default];
 
@@ -142,7 +215,7 @@ in {
       };
 
       widget = {
-        workspaces.display = "none";
+        workspaces.show_labels = false;
         nix_monitor.type = "avivbintangaringga/nix-monitor:nix-monitor";
       };
 
@@ -165,43 +238,13 @@ in {
         source = "wallpaper";
         wallpaper_scheme = "m3-content";
         templates = {
-          user.spotify-colors = {
-            input_path = "${spotifyColorsTemplate}";
-            output_path = "${config.home.homeDirectory}/.config/spicetify/noctalia-colors.css";
-          };
-          # builtin ghostty template; post_hook hot-reloads running windows
-          # the same way the builtin apply.sh does, minus its config-file
-          # mutation (theme = noctalia is already set statically)
-          user.ghostty-colors = {
-            input_path = "${inputs.noctalia}/assets/templates/ghostty/ghostty";
-            output_path = "${config.home.homeDirectory}/.config/ghostty/themes/noctalia";
-            post_hook = "pgrep -f ghostty >/dev/null && pkill -SIGUSR2 ghostty || true";
-          };
           user.niri-colors = {
             input_path = "${niriColorsTemplate}";
             output_path = "${config.home.homeDirectory}/.config/niri/noctalia.kdl";
             post_hook = "niri msg action load-config-file";
           };
-          user.tmux-colors = {
-            input_path = "${tmuxColorsTemplate}";
-            output_path = "${config.home.homeDirectory}/.config/tmux/noctalia.conf";
-            post_hook = "tmux source-file ${config.home.homeDirectory}/.config/tmux/tmux.conf >/dev/null 2>&1 || true";
-          };
-          builtin_ids = ["btop" "gtk3" "gtk4" "qt"];
-          community_ids = [
-            "bat"
-            "discord"
-            "fuzzel"
-            "obs"
-            "obsidian"
-            "opencode"
-            "prismlauncher"
-            "steam"
-            "telegram"
-            "yazi"
-            "zathura"
-            "zen-browser"
-          ];
+          builtin_ids = [];
+          community_ids = [];
         };
       };
 

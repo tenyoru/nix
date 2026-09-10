@@ -3,85 +3,19 @@ local function augroup(name)
 end
 
 local function hide_statusline()
-  vim.api.nvim_set_hl(0, "StatusLine", { link = "Normal" })
-  vim.api.nvim_set_hl(0, "StatusLineNC", { link = "Normal" })
+  -- bg=NONE so separators are glyphs (─│┼) and T-joints can form; a solid
+  -- WinSeparator background paints over fillchars and the joints vanish.
+  -- StatusLine gets the same fg because with laststatus=3 it is just the
+  -- bottom edge of the same frame, drawn from the 'stl' fillchar.
+  local fg = vim.api.nvim_get_hl(0, { name = "Comment", link = false }).fg
+  for _, g in ipairs({ "StatusLine", "StatusLineNC", "WinSeparator", "MsgSeparator" }) do
+    vim.api.nvim_set_hl(0, g, { fg = fg, bg = "NONE" })
+  end
 end
 hide_statusline()
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = augroup("statusline_hide"),
   callback = hide_statusline,
-})
-
-local notebook_ns = vim.api.nvim_create_namespace("notebook_lines")
-
-local function notebook_hl()
-  local bg = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg or 0x161310
-  local r, g, b = math.floor(bg / 65536) % 256, math.floor(bg / 256) % 256, bg % 256
-  -- step away from the background, so the rule darkens on paper and lightens
-  -- on a dark scheme instead of clipping to white
-  local step = (0.299 * r + 0.587 * g + 0.114 * b) > 128 and -22 or 14
-  vim.api.nvim_set_hl(0, "NotebookRule", {
-    underline = true,
-    sp = string.format(
-      "#%02x%02x%02x",
-      math.max(0, math.min(255, r + step)),
-      math.max(0, math.min(255, g + step)),
-      math.max(0, math.min(255, b + step))
-    ),
-  })
-end
-notebook_hl()
-vim.api.nvim_create_autocmd("ColorScheme", {
-  group = augroup("notebook_lines"),
-  callback = notebook_hl,
-})
-
-vim.api.nvim_set_decoration_provider(notebook_ns, {
-  on_win = function(_, win, buf)
-    local bt = vim.bo[buf].buftype
-    if bt == "terminal" or bt == "prompt" or bt == "quickfix" then
-      return false
-    end
-    if vim.api.nvim_win_get_config(win).relative ~= "" then
-      return false
-    end
-    return true
-  end,
-  on_line = function(_, win, buf, row)
-    local line = vim.api.nvim_buf_get_lines(buf, row, row + 1, false)[1] or ""
-    if line ~= "" then
-      vim.api.nvim_buf_set_extmark(buf, notebook_ns, row, 0, {
-        ephemeral = true,
-        end_col = #line,
-        hl_group = "NotebookRule",
-        hl_mode = "combine",
-      })
-    end
-    -- overlay lands exactly at the end of the text, but conceal (oil) makes
-    -- strdisplaywidth over-count and pushes it too far right; eol is always
-    -- placed correctly yet nvim inserts one unstyled cell before it. Emitting
-    -- both means normal buffers get no gap and concealed ones get one cell.
-    local width = vim.api.nvim_win_get_width(win)
-    local rule = { { string.rep(" ", width), "NotebookRule" } }
-    vim.api.nvim_buf_set_extmark(buf, notebook_ns, row, 0, {
-      ephemeral = true,
-      virt_text = rule,
-      virt_text_pos = "eol",
-      -- NotebookRule carries no background, so without combine the default
-      -- replace mode wipes CursorLine past the end of the text
-      hl_mode = "combine",
-    })
-    -- oil hides a "/123 " id prefix (its syntax/oil.vim conceals `^/\d* `),
-    -- which strdisplaywidth still counts; drop it so overlay lands exactly
-    local hidden = vim.bo[buf].filetype == "oil" and line:match("^/%d* ") or nil
-    vim.api.nvim_buf_set_extmark(buf, notebook_ns, row, 0, {
-      ephemeral = true,
-      virt_text = rule,
-      virt_text_pos = "overlay",
-      virt_text_win_col = vim.fn.strdisplaywidth(line) - (hidden and #hidden or 0),
-      hl_mode = "combine",
-    })
-  end,
 })
 
 -- highlighting copied text

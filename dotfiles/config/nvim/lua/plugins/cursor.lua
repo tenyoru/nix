@@ -1,30 +1,36 @@
--- laststatus=0 hides the usual [+] marker, so the cursor carries buffer state
--- instead. Needs the -Cursor suffix in 'guicursor' (see config/options.lua).
+-- laststatus=0 hides the usual [+] marker, so the cursor carries buffer state.
+-- Needs the -Cursor suffix in 'guicursor' (see config/options.lua).
 --
--- Colours live on CursorIdle / CursorLocked / CursorDirty, filled from the
--- active colorscheme. This file only picks which of those Cursor links to.
+-- guicursor ignores a linked Cursor group (falls back to ANSI 11 / invert, which
+-- is why the block went yellow or picked up the syntax colour under the cursor).
 local M = {}
 
+local pal = { idle = {}, locked = {}, dirty = {} }
+
 function M.theme()
-  local n = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
-  local function fg(group)
-    return vim.api.nvim_get_hl(0, { name = group, link = false }).fg
+  local function hl(name)
+    return vim.api.nvim_get_hl(0, { name = name })
   end
+  local n, err, warn = hl("Normal"), hl("DiagnosticError"), hl("DiagnosticWarn")
   local ok, base16 = pcall(require, "base16-colorscheme")
   local p = ok and base16.colors or {}
-  vim.api.nvim_set_hl(0, "CursorIdle", { fg = n.bg, bg = n.fg })
-  vim.api.nvim_set_hl(0, "CursorLocked", { fg = n.bg, bg = p.base0A or fg("WarningMsg") })
-  vim.api.nvim_set_hl(0, "CursorDirty", { fg = n.bg, bg = p.base08 or fg("ErrorMsg") })
+  local bg, fg = n.bg or p.base00, n.fg or p.base05
+  pal.idle = { fg = bg, bg = fg }
+  pal.locked = { fg = bg, bg = warn.fg or p.base0A or fg }
+  pal.dirty = { fg = bg, bg = err.fg or p.base08 or fg }
 end
 
 function M.apply()
-  local group = "CursorIdle"
+  local hl = pal.idle
   if vim.bo.readonly or not vim.bo.modifiable then
-    group = "CursorLocked"
+    hl = pal.locked
   elseif vim.bo.modified then
-    group = "CursorDirty"
+    hl = pal.dirty
   end
-  vim.api.nvim_set_hl(0, "Cursor", { link = group })
+  if not hl.bg then
+    return
+  end
+  vim.api.nvim_set_hl(0, "Cursor", { fg = hl.fg, bg = hl.bg, force = true })
 end
 
 function M.init()
@@ -37,7 +43,7 @@ function M.init()
     end,
   })
   vim.api.nvim_create_autocmd(
-    { "BufModifiedSet", "BufWritePost", "BufEnter" },
+    { "BufModifiedSet", "BufWritePost", "BufEnter", "WinEnter" },
     { group = g, callback = M.apply }
   )
   vim.api.nvim_create_autocmd("OptionSet", {
