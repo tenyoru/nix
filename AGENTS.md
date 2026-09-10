@@ -17,13 +17,14 @@ just sops-check            # required before every commit
 nix fmt                    # alejandra (flake formatter)
 ```
 
+- `just build` / `just switch` pass `--sudo` and will **block on a password prompt** — for agent verification use the plain `nix build` below instead.
 - Do not enter `nix develop` from agents — `shellHook` is `exec fish`.
 - Do not use `just commit` — it `git add .` with a generic message.
-- After Nix edits: `nix fmt`, then targeted eval (or `just build`). Never `just switch` unless asked.
+- After Nix edits: `nix fmt`, then targeted eval or `nix build`. Never `just switch` unless asked.
 
 ```bash
 nix eval .#nixosConfigurations.core.config.system.stateVersion
-nix build .#nixosConfigurations.core.config.system.build.toplevel
+nix build .#nixosConfigurations.core.config.system.build.toplevel   # non-interactive full check
 ```
 
 Flake attrs are `device.toml` `name`, not the directory: `devices/laptop-core` → `.#core`, `devices/pi5` → `.#pi5`.
@@ -34,7 +35,7 @@ Flake attrs are `device.toml` `name`, not the directory: `devices/laptop-core` �
 
 Enable with booleans in `[host]`, `[home]`, `[packages]`, `[stablePackages]`. Key = filename without `.nix` (`true` includes; `false`/omit skips). `mylib.findPath` accepts `name.nix` or `name/default.nix` and **throws** if missing.
 
-Dotted package paths must be quoted or TOML nests them: `"pipewire.jack" = true`.
+`[packages]`/`[stablePackages]` keys are **attr paths into pkgs**, not module names, and land in `home.packages` (so they need HM — Pi hosts must use `environment.systemPackages` in `hardware.nix`). Dotted paths must be quoted or TOML nests them: `"pipewire.jack" = true`. `[stablePackages]` resolves from `inputs.stable` (nixos-24.11); everything else from `nixpkgs` → `unstable`.
 
 - `modules/host/` — NixOS; `modules/home/` — Home Manager
 - Always imported: `modules/base.nix`. HM via `home/default.nix` (non-Pi only)
@@ -61,4 +62,5 @@ Uses `nixos-raspberrypi.lib.nixosSystem`. Skips Home Manager, disko, and `base.n
 - Non-Pi overlays in `base.nix`: `zig-overlay`, `millennium`, pinned `claude-code` (bump `version` + `hash` to update)
 - `programs.fish.generateCompletions` must stay `false` (fish 4.8 broke HM)
 - Laptop hostname is hardcoded `"nixos"` in `modules/host/networking.nix`
-- No test suite (`lib/test.nix` is dead)
+- Repo is a **colocated jj + git** checkout (`.jj/repo/store/git_target` → `.git`); avoid git branch/checkout surgery, `just` targets use plain git
+- No test suite (`lib/test.nix` is dead, referenced by nothing)
